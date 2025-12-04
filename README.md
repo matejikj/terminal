@@ -1,85 +1,78 @@
 # Terminal README
 
-- [ ] TODO Replace or update this README with instructions relevant to your application
+Terminal is now split into three Maven modules so that you can ship two customer-specific variants on top of a shared Vaadin/Spring Boot core:
+
+- **core** – contains all shared Vaadin views, services, data access, resources, and tests that used to live under `src`.
+- **product** – brings in the `core` module and contains brand-specific bootstrapping/resources for the Product customer.
+- **skoda** – same idea as `product`, but with Skoda-specific overrides.
 
 ## Project Structure
 
-The sources of your Terminal have the following structure:
-
 ```
-src
-├── main/frontend
-│   └── themes
-│       └── default
-│           ├── styles.css
-│           └── theme.json
-├── main/java
-│   └── [application package]
-│       ├── base
-│       │   └── ui
-│       │       ├── component
-│       │       │   └── ViewToolbar.java
-│       │       └── MainLayout.java
-│       ├── examplefeature
-│       │   ├── ui
-│       │   │   └── TaskListView.java
-│       │   ├── Task.java
-│       │   ├── TaskRepository.java
-│       │   └── TaskService.java                
-│       └── Application.java       
-└── test/java
-    └── [application package]
-        └── examplefeature
-           └── TaskServiceTest.java                 
+.
+├── core
+│   └── src
+│       ├── main/java/com/matejik/...
+│       ├── main/frontend
+│       └── test/java/com/matejik/...
+├── product
+│   └── src
+│       ├── main/java/com/matejik/product/ProductApplication.java
+│       └── main/resources/application-product.properties
+└── skoda
+    └── src
+        ├── main/java/com/matejik/skoda/SkodaApplication.java
+        └── main/resources/application-skoda.properties
 ```
 
-The main entry point into the application is `Application.java`. This class contains the `main()` method that start up 
-the Spring Boot application.
+`Application.java` (in the `core` module) is still the main Spring Boot/Vaadin configuration class. The two brand modules simply start that configuration with their own active profile so they can override beans, themes, or properties as needed.
 
-The skeleton follows a *feature-based package structure*, organizing code by *functional units* rather than traditional 
-architectural layers. It includes two feature packages: `base` and `examplefeature`.
+## Running the Applications
 
-* The `base` package contains classes meant for reuse across different features, either through composition or 
-  inheritance. You can use them as-is, tweak them to your needs, or remove them.
-* The `examplefeature` package is an example feature package that demonstrates the structure. It represents a 
-  *self-contained unit of functionality*, including UI components, business logic, data access, and an integration test.
-  Once you create your own features, *you'll remove this package*.
-
-The `src/main/frontend` directory contains an empty theme called `default`, based on the Lumo theme. It is activated in
-the `Application` class, using the `@Theme` annotation.
-
-## Starting in Development Mode
-
-To start the application in development mode, import it into your IDE and run the `Application` class. 
-You can also start the application from the command line by running: 
+From the project root you can use the Maven wrapper shortcuts:
 
 ```bash
-./mvnw
+./mvnw             # starts the Product dev server (-pl product -am spring-boot:run)
+./mvnw product     # same as above, explicitly targeting Product
+./mvnw skoda       # starts the Skoda dev server (-pl skoda -am spring-boot:run)
+```
+
+When you pass extra goals/flags after `product` or `skoda`, the wrapper will keep the module selection but use *your* goals. For example:
+
+```bash
+./mvnw product -Dspring-boot.run.profiles=dev spring-boot:run
+./mvnw skoda clean package
 ```
 
 ## Building for Production
 
-To build the application in production mode, run:
+Build both brand artifacts (core + Product + Skoda) with Vaadin's production profile in a single command:
 
 ```bash
-./mvnw -Pproduction package
+./mvnw production          # equivalent to ./mvnw -Pproduction package
 ```
 
-To build a Docker image, run:
+To build just one customer artifact, keep using the module shortcuts but add your preferred goals:
 
 ```bash
-docker build -t my-application:latest .
+./mvnw product -Pproduction package
+./mvnw skoda -Pproduction package
 ```
 
-If you use commercial components, pass the license key as a build secret:
+## Docker Image
+
+Build a Docker image from the desired brand artifact, for example:
+
+```bash
+docker build -t terminal-product:latest -f Dockerfile .
+```
+
+If you use commercial Vaadin components, pass the license key as a build secret:
 
 ```bash
 docker build --secret id=proKey,src=$HOME/.vaadin/proKey .
 ```
 
-## Getting Started
+## Further Reading
 
-The [Getting Started](https://vaadin.com/docs/latest/getting-started) guide will quickly familiarize you with your new
-Terminal implementation. You'll learn how to set up your development environment, understand the project 
-structure, and find resources to help you add muscles to your skeleton — transforming it into a fully-featured 
-application.
+The [Vaadin Getting Started guide](https://vaadin.com/docs/latest/getting-started) is still a great resource for understanding the shared `core` module and how to extend it with more features per customer.

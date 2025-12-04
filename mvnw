@@ -32,6 +32,38 @@
 set -euf
 [ "${MVNW_VERBOSE-}" != debug ] || set -x
 
+# Project-specific shortcut commands for brand-specific runs and builds
+if [ "$#" -eq 0 ]; then
+  set -- -pl product -am spring-boot:run
+else
+  case "$1" in
+  product)
+    shift
+    if [ "$#" -gt 0 ]; then
+      set -- -pl product -am "$@"
+    else
+      set -- -pl product -am spring-boot:run
+    fi
+    ;;
+  skoda)
+    shift
+    if [ "$#" -gt 0 ]; then
+      set -- -pl skoda -am "$@"
+    else
+      set -- -pl skoda -am spring-boot:run
+    fi
+    ;;
+  production)
+    shift
+    if [ "$#" -gt 0 ]; then
+      set -- -Pproduction "$@"
+    else
+      set -- -Pproduction package
+    fi
+    ;;
+  esac
+fi
+
 # OS specific support.
 native_path() { printf %s\\n "$1"; }
 case "$(uname)" in
