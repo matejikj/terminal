@@ -1,5 +1,6 @@
 package com.matejik.examplefeature.ui;
 
+import com.matejik.base.ui.MainLayout;
 import com.matejik.base.ui.component.ViewToolbar;
 import com.matejik.examplefeature.Task;
 import com.matejik.examplefeature.TaskService;
@@ -23,10 +24,10 @@ import java.util.Optional;
 
 import static com.vaadin.flow.spring.data.VaadinSpringDataHelpers.toSpringPageRequest;
 
-@Route("")
+@Route(value = "", layout = MainLayout.class)
 @PageTitle("Task List")
 @Menu(order = 0, icon = "vaadin:clipboard-check", title = "Task List")
-class TaskListView extends Main {
+public class TaskListView extends Main {
 
     private final TaskService taskService;
 
@@ -35,7 +36,7 @@ class TaskListView extends Main {
     final Button createBtn;
     final Grid<Task> taskGrid;
 
-    TaskListView(TaskService taskService) {
+    public TaskListView(TaskService taskService) {
         this.taskService = taskService;
 
         description = new TextField();
