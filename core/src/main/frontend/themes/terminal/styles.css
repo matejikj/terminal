@@ -1,0 +1,50 @@
+:root {
+  --terminal-shell-bg: var(--lumo-base-color);
+  --terminal-border-color: var(--lumo-contrast-20pct);
+}
+
+.terminal-shell {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr) 320px 120px;
+  min-height: calc(100vh - var(--lumo-size-xl));
+  background: var(--terminal-shell-bg);
+}
+
+.terminal-left-sidebar {
+  border-right: 1px solid var(--terminal-border-color);
+}
+
+.terminal-main {
+  padding: var(--lumo-space-m);
+  border-right: 1px solid var(--terminal-border-color);
+  overflow: auto;
+}
+
+.terminal-right-panel {
+  border-right: 1px solid var(--lumo-border-color);
+}
+
+.terminal-right-sidebar {
+  display: flex;
+  justify-content: center;
+}
+
+.terminal-status-bar {
+  border-bottom: 1px solid var(--terminal-border-color);
+  background: var(--lumo-base-color);
+}
+
+.terminal-call-row {
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.terminal-call-row:hover {
+  border-color: var(--lumo-primary-color-50pct);
+}
+
+.quick-action {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--lumo-border-radius-m);
+}

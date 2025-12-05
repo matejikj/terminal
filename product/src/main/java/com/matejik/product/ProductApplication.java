@@ -1,16 +1,13 @@
 package com.matejik.product;
 
-import com.matejik.Application;
+import com.vaadin.flow.component.page.AppShellConfigurator;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-public final class ProductApplication {
-
-    private ProductApplication() {
-    }
+@SpringBootApplication
+public class ProductApplication implements AppShellConfigurator {
 
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(Application.class);
-        app.setAdditionalProfiles("product");
-        app.run(args);
+        SpringApplication.run(ProductApplication.class, args);
     }
 }

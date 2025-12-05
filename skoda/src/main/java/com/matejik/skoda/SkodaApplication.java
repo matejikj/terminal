@@ -1,16 +1,13 @@
 package com.matejik.skoda;
 
-import com.matejik.Application;
+import com.vaadin.flow.component.page.AppShellConfigurator;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-public final class SkodaApplication {
-
-    private SkodaApplication() {
-    }
+@SpringBootApplication
+public class SkodaApplication implements AppShellConfigurator {
 
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(Application.class);
-        app.setAdditionalProfiles("skoda");
-        app.run(args);
+        SpringApplication.run(SkodaApplication.class, args);
     }
 }
