@@ -29,6 +29,9 @@
 #   MVNW_VERBOSE - true: enable verbose log; debug: trace the mvnw script; others: silence the output
 # ----------------------------------------------------------------------------
 
+# Force Java 21 for this project
+export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+
 set -euf
 [ "${MVNW_VERBOSE-}" != debug ] || set -x
 

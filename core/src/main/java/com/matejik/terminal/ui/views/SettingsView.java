@@ -1,7 +1,7 @@
 package com.matejik.terminal.ui.views;
 
 import com.matejik.terminal.i18n.TerminalLocaleService;
-import com.matejik.terminal.sip.SipAccountCredentials;
+import com.matejik.sip.SipAccountCredentials;
 import com.matejik.terminal.sip.SipTerminalService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;

@@ -1,7 +1,7 @@
 package com.matejik.terminal.config;
 
-import com.matejik.terminal.sip.MockSipClient;
-import com.matejik.terminal.sip.SipClient;
+import com.matejik.sip.MockSipClient;
+import com.matejik.sip.SipClient;
 import com.vaadin.flow.i18n.I18NProvider;
 import com.vaadin.flow.spring.annotation.VaadinSessionScope;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

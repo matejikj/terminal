@@ -2,7 +2,7 @@ package com.matejik.terminal.layout;
 
 import com.matejik.terminal.brand.BrandProfile;
 import com.matejik.terminal.i18n.TerminalLocaleService;
-import com.matejik.terminal.sip.SipSessionState;
+import com.matejik.sip.SipSessionState;
 import com.matejik.terminal.sip.SipTerminalService;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Composite;

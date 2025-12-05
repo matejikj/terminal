@@ -1,8 +1,8 @@
 package com.matejik.terminal.layout;
 
-import com.matejik.terminal.sip.SipCall;
-import com.matejik.terminal.sip.SipCallState;
-import com.matejik.terminal.sip.SipSessionState;
+import com.matejik.sip.SipCall;
+import com.matejik.sip.SipCallState;
+import com.matejik.sip.SipSessionState;
 import com.matejik.terminal.sip.SipTerminalService;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;

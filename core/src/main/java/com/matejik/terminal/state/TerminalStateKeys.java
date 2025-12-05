@@ -1,6 +1,6 @@
 package com.matejik.terminal.state;
 
-import com.matejik.terminal.sip.SipSessionState;
+import com.matejik.sip.SipSessionState;
 
 import java.util.Locale;
 
