@@ -42,7 +42,7 @@ public final class TerminalStatusBar extends Composite<Div> {
         this.localeService = localeService;
         var root = getContent();
         root.addClassNames("terminal-status-bar", LumoUtility.Display.FLEX, LumoUtility.AlignItems.CENTER,
-                LumoUtility.JustifyContent.BETWEEN, LumoUtility.Gap.MEDIUM);
+            LumoUtility.JustifyContent.BETWEEN, LumoUtility.Gap.MEDIUM);
 
         var branding = new Div(brandProfile.logo(), new Span(brandProfile.name()));
         branding.addClassNames("terminal-status-brand", LumoUtility.Display.FLEX, LumoUtility.AlignItems.CENTER,
@@ -56,9 +56,9 @@ public final class TerminalStatusBar extends Composite<Div> {
         tags.addClassNames("terminal-status-tags", LumoUtility.Display.FLEX, LumoUtility.AlignItems.CENTER,
                 LumoUtility.Gap.SMALL);
 
-        var center = new Div(tags, statusSummary);
+        var center = new Div(tags);
         center.addClassNames("terminal-status-center", LumoUtility.Display.FLEX, LumoUtility.AlignItems.CENTER,
-                LumoUtility.Gap.LARGE);
+            LumoUtility.Gap.SMALL);
 
         clockLabel.addClassNames("terminal-status-clock");
 
@@ -70,7 +70,7 @@ public final class TerminalStatusBar extends Composite<Div> {
         rightCluster.addClassNames("terminal-status-right", LumoUtility.Display.FLEX, LumoUtility.AlignItems.CENTER,
                 LumoUtility.Gap.SMALL);
 
-        root.add(branding, center, rightCluster);
+        root.add(branding, center, statusSummary, rightCluster);
     }
 
     @Override

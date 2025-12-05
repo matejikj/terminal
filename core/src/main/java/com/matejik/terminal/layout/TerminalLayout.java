@@ -21,10 +21,14 @@ public class TerminalLayout extends AppLayout {
                           TerminalLocaleService localeService,
                           StateStore stateStore) {
         setPrimarySection(Section.NAVBAR);
-        addToNavbar(new TerminalStatusBar(brandProfile, sipTerminalService, localeService));
+        getElement().getStyle().set("height", "100%");
+        getElement().getStyle().set("width", "100%");
+        getElement().getStyle().set("overflow", "hidden");
 
         var stage = new Div();
         stage.addClassNames("terminal-stage");
+
+        var statusBar = new TerminalStatusBar(brandProfile, sipTerminalService, localeService);
 
         var shell = new Div();
         shell.addClassNames("terminal-shell");
@@ -39,7 +43,7 @@ public class TerminalLayout extends AppLayout {
         shell.add(new ActiveCallsPanel(sipTerminalService));
         shell.add(new QuickActionsSidebar());
 
-        stage.add(shell);
+        stage.add(statusBar, shell);
         setContent(stage);
     }
 
