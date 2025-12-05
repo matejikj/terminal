@@ -15,8 +15,8 @@ public final class QuickActionsSidebar extends Composite<Div> {
         var root = getContent();
         root.addClassNames("terminal-right-sidebar", LumoUtility.Padding.SMALL);
         var container = new VerticalLayout();
-        container.addClassNames(LumoUtility.Display.FLEX, LumoUtility.AlignItems.CENTER, LumoUtility.Gap.SMALL,
-                LumoUtility.Margin.NONE);
+        container.addClassNames("quick-actions-stack", LumoUtility.Display.FLEX, LumoUtility.AlignItems.CENTER,
+            LumoUtility.Gap.MEDIUM, LumoUtility.Margin.NONE);
         container.setPadding(false);
 
         container.add(createPrimaryAction(VaadinIcon.VOLUME_OFF, "terminal.actions.mute"),

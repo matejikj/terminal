@@ -7,33 +7,38 @@ import com.matejik.terminal.state.TerminalStateKeys;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.DetachEvent;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.sidenav.SideNav;
-import com.vaadin.flow.component.sidenav.SideNavItem;
+import com.vaadin.flow.router.AfterNavigationEvent;
+import com.vaadin.flow.router.AfterNavigationListener;
 import com.vaadin.flow.shared.Registration;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class TerminalMenu extends Composite<Div> {
+public final class TerminalMenu extends Composite<Div> implements AfterNavigationListener {
 
     private final List<MenuEntry> entries = new ArrayList<>();
     private final StateStore stateStore;
     private Registration localeRegistration;
+    private Registration navigationRegistration;
 
     public TerminalMenu(TerminalNavigationRegistry navigationRegistry, StateStore stateStore) {
         this.stateStore = stateStore;
         var container = getContent();
-        container.addClassNames("terminal-left-sidebar", LumoUtility.Padding.MEDIUM, LumoUtility.Display.FLEX,
-                LumoUtility.FlexDirection.COLUMN, LumoUtility.Gap.SMALL);
+        container.addClassNames("terminal-left-sidebar", LumoUtility.Padding.SMALL, LumoUtility.Display.FLEX,
+                LumoUtility.FlexDirection.COLUMN, LumoUtility.AlignItems.CENTER, LumoUtility.Gap.SMALL);
 
-        var nav = new SideNav();
-        nav.addClassNames(LumoUtility.Display.FLEX, LumoUtility.FlexDirection.COLUMN, LumoUtility.Gap.SMALL);
-        navigationRegistry.items().forEach(item -> nav.addItem(createNavItem(item)));
+        var stack = new Div();
+        stack.addClassNames("terminal-sidebar-buttons", LumoUtility.Display.FLEX, LumoUtility.FlexDirection.COLUMN,
+                LumoUtility.Gap.SMALL);
+        navigationRegistry.items().forEach(item -> stack.add(createNavButton(item)));
 
-        container.add(nav);
+        container.add(stack);
     }
 
     @Override
@@ -42,6 +47,8 @@ public final class TerminalMenu extends Composite<Div> {
         updateLocale();
         localeRegistration = stateStore.addListener(TerminalStateKeys.ACTIVE_LOCALE, locale ->
                 attachEvent.getUI().access(this::updateLocale));
+        navigationRegistration = attachEvent.getUI().addAfterNavigationListener(this);
+        attachEvent.getUI().access(this::refreshSelection);
     }
 
     @Override
@@ -51,17 +58,25 @@ public final class TerminalMenu extends Composite<Div> {
             localeRegistration.remove();
             localeRegistration = null;
         }
+        if (navigationRegistration != null) {
+            navigationRegistration.remove();
+            navigationRegistration = null;
+        }
     }
 
-    private SideNavItem createNavItem(TerminalNavItem item) {
+    private Button createNavButton(TerminalNavItem item) {
         var iconComponent = item.icon().get();
         if (iconComponent instanceof Icon icon) {
-            icon.setSize("var(--lumo-size-m)");
+            icon.setSize("24px");
+            icon.getElement().getClassList().add("terminal-sidebar-icon");
         }
-        var navItem = new SideNavItem("", item.navigationTarget());
-        navItem.setPrefixComponent(iconComponent);
-        entries.add(new MenuEntry(item, navItem));
-        return navItem;
+        var button = new Button(iconComponent);
+        button.addThemeVariants(ButtonVariant.LUMO_ICON, ButtonVariant.LUMO_TERTIARY);
+        button.addClassNames("terminal-sidebar-button");
+        button.addClickListener(event -> event.getSource().getUI()
+                .ifPresent(ui -> ui.navigate(item.navigationTarget())));
+        entries.add(new MenuEntry(item, button));
+        return button;
     }
 
     private void updateLocale() {
@@ -69,9 +84,38 @@ public final class TerminalMenu extends Composite<Div> {
         if (ui == null) {
             return;
         }
-        entries.forEach(entry -> entry.component.setLabel(ui.getTranslation(entry.item.translationKey())));
+        entries.forEach(entry -> {
+            var translated = ui.getTranslation(entry.item.translationKey());
+            entry.button.setTooltipText(translated);
+            entry.button.getElement().setAttribute("aria-label", translated);
+        });
     }
 
-    private record MenuEntry(TerminalNavItem item, SideNavItem component) {
+    private void refreshSelection() {
+        getUI().ifPresent(ui -> {
+            var chain = ui.getInternals().getActiveRouterTargetsChain();
+            if (!chain.isEmpty()) {
+                var target = chain.get(chain.size() - 1).getClass();
+                setActiveTarget(target);
+            }
+        });
+    }
+
+    @Override
+    public void afterNavigation(AfterNavigationEvent event) {
+        var chain = event.getActiveChain();
+        if (!chain.isEmpty()) {
+            setActiveTarget(chain.get(chain.size() - 1).getClass());
+        }
+    }
+
+    private void setActiveTarget(Class<?> target) {
+        entries.forEach(entry -> {
+            var active = target != null && target.equals(entry.item.navigationTarget());
+            entry.button.getElement().getClassList().set("is-active", active);
+        });
+    }
+
+    private record MenuEntry(TerminalNavItem item, Button button) {
     }
 }

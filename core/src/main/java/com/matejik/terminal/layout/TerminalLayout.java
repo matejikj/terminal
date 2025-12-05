@@ -23,6 +23,9 @@ public class TerminalLayout extends AppLayout {
         setPrimarySection(Section.NAVBAR);
         addToNavbar(new TerminalStatusBar(brandProfile, sipTerminalService, localeService));
 
+        var stage = new Div();
+        stage.addClassNames("terminal-stage");
+
         var shell = new Div();
         shell.addClassNames("terminal-shell");
 
@@ -36,7 +39,8 @@ public class TerminalLayout extends AppLayout {
         shell.add(new ActiveCallsPanel(sipTerminalService));
         shell.add(new QuickActionsSidebar());
 
-        setContent(shell);
+        stage.add(shell);
+        setContent(stage);
     }
 
     @Override
