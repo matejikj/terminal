@@ -29,8 +29,23 @@
 #   MVNW_VERBOSE - true: enable verbose log; debug: trace the mvnw script; others: silence the output
 # ----------------------------------------------------------------------------
 
-# Force Java 21 for this project
-export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+# Force Java 21 for this project. Allow users to override JAVA_HOME but try to
+# auto-detect a suitable JDK 21 installation for common platforms.
+if [ -z "${JAVA_HOME-}" ]; then
+  if [ -x /usr/libexec/java_home ]; then
+    if JAVA_21_HOME="$(/usr/libexec/java_home -v21 2>/dev/null)"; then
+      [ -z "$JAVA_21_HOME" ] || export JAVA_HOME="$JAVA_21_HOME"
+    fi
+  fi
+fi
+
+if [ -z "${JAVA_HOME-}" ] && [ -d /opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home ]; then
+  export JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home
+fi
+
+if [ -z "${JAVA_HOME-}" ] && [ -d /usr/lib/jvm/java-21-openjdk-amd64 ]; then
+  export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+fi
 
 set -euf
 [ "${MVNW_VERBOSE-}" != debug ] || set -x
