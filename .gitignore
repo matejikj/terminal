@@ -1,6 +1,4 @@
 **/target/
-.idea/
-.vscode/
 .settings
 .project
 .classpath
@@ -13,3 +11,4 @@
 **/node_modules/
 **/src/main/frontend/generated/
 **/vite.generated.ts
+# core/src/main/bundles/dev.bundle

@@ -9,6 +9,7 @@ import com.matejik.terminal.sip.SipTerminalService;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.DetachEvent;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
@@ -16,12 +17,12 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.shared.Registration;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
-import java.time.LocalDateTime;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public final class TerminalStatusBar extends Composite<Div> {
 
@@ -34,8 +35,11 @@ public final class TerminalStatusBar extends Composite<Div> {
     private final StatusTag pbxTag = new StatusTag("PBX");
     private final StatusTag recordingTag = new StatusTag("Nahrávání");
     private final StatusTag loggingTag = new StatusTag("Logování");
-    private final DateTimeFormatter clockFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-    private ScheduledExecutorService clockExecutor;
+    private final DateTimeFormatter clockFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss 'UTC'");
+    private static final Duration SYNC_INTERVAL = Duration.ofMinutes(1);
+    private ZonedDateTime referenceTime;
+    private long ticksSinceSync = Long.MAX_VALUE;
+    private Registration clockPollRegistration;
 
     public TerminalStatusBar(BrandProfile brandProfile, SipTerminalService sipService, TerminalLocaleService localeService) {
         this.sipService = sipService;
@@ -88,7 +92,7 @@ public final class TerminalStatusBar extends Composite<Div> {
             sipRegistration.remove();
             sipRegistration = null;
         }
-        stopClock();
+        stopClock(detachEvent.getUI());
     }
 
     private void applyState(SipSessionState state) {
@@ -116,24 +120,34 @@ public final class TerminalStatusBar extends Composite<Div> {
     }
 
     private void startClock(AttachEvent attachEvent) {
-        stopClock();
+        stopClock(attachEvent.getUI());
         var ui = attachEvent.getUI();
-        clockExecutor = Executors.newSingleThreadScheduledExecutor(runnable -> {
-            var thread = new Thread(runnable, "terminal-clock");
-            thread.setDaemon(true);
-            return thread;
-        });
-        clockExecutor.scheduleAtFixedRate(() -> {
-            var now = clockFormatter.format(LocalDateTime.now());
-            ui.access(() -> clockLabel.setText(now));
-        }, 0, 1, TimeUnit.SECONDS);
+        ui.setPollInterval(1000);
+        referenceTime = null;
+        ticksSinceSync = Long.MAX_VALUE;
+        updateClock();
+        clockPollRegistration = ui.addPollListener(event -> updateClock());
     }
 
-    private void stopClock() {
-        if (clockExecutor != null) {
-            clockExecutor.shutdownNow();
-            clockExecutor = null;
+    private void stopClock(UI ui) {
+        if (clockPollRegistration != null) {
+            clockPollRegistration.remove();
+            clockPollRegistration = null;
         }
+        if (ui != null) {
+            ui.setPollInterval(-1);
+        }
+    }
+
+    private void updateClock() {
+        if (referenceTime == null || ticksSinceSync >= SYNC_INTERVAL.getSeconds()) {
+            referenceTime = ZonedDateTime.ofInstant(Instant.now(), ZoneOffset.UTC);
+            ticksSinceSync = 0;
+        } else {
+            referenceTime = referenceTime.plusSeconds(1);
+            ticksSinceSync++;
+        }
+        clockLabel.setText(clockFormatter.format(referenceTime));
     }
 
     private static final class StatusTag extends Div {

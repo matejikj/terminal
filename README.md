@@ -44,6 +44,13 @@ When you pass extra goals/flags after `product` or `skoda`, the wrapper will kee
 ./mvnw skoda clean package
 ```
 
+## Hot Reload Workflow
+
+Vaadin dev mode and Spring Boot DevTools are enabled in the shared `core` module. Keep the application running (for example `./mvnw -pl product -am -DskipTests spring-boot:run`) and let your IDE recompile classes automatically:
+
+- **VS Code** – install [`entr`](https://eradman.com/entrproject/) once (`sudo apt install entr`). The repo ships with `.vscode/settings.json` and `.vscode/tasks.json` so that VS Code starts the `watch:maven-compile-product` task automatically when you open the folder. Allow the automatic task when prompted; it watches Java sources in `core`/`product` and runs `./mvnw -pl product -am -DskipTests compile` on every save so DevTools can hot-reload instantly.
+- **IntelliJ IDEA** – the shared workspace settings already enable “Build project automatically” and “Allow auto-make to start even if developed application is running”. Just trust the project and start the `ProductApplication` or `SkodaApplication` Run Configuration; IntelliJ will emit new `.class` files after each save, which triggers DevTools without any manual Maven commands.
+
 ## Building for Production
 
 Build both brand artifacts (core + Product + Skoda) with Vaadin's production profile in a single command:

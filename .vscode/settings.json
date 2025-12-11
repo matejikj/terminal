@@ -1,0 +1,10 @@
+{
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.autobuild.enabled": true,
+    "maven.terminal.useJavaHome": true,
+    "terminal.integrated.env.linux": {
+        "JAVA_HOME": "/usr/lib/jvm/java-21-openjdk-amd64"
+    },
+    "task.allowAutomaticTasks": "on",
+    "java.compile.nullAnalysis.mode": "automatic"
+}

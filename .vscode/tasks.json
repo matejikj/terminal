@@ -1,0 +1,22 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "watch:maven-compile-product",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-lc",
+                "find core/src/main/java product/src/main/java -name '*.java' | entr -r ./mvnw -pl product -am -DskipTests compile"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "isBackground": true,
+            "problemMatcher": [],
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
+        }
+    ]
+}
