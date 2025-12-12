@@ -10,8 +10,6 @@ import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.DetachEvent;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.shared.Registration;
@@ -84,12 +82,7 @@ public final class TerminalStatusBar extends Composite<Div> {
 
     clockLabel.addClassNames("terminal-status-clock");
 
-    var languageToggle =
-        new Button(getTranslation("terminal.status.language"), event -> toggleLocale());
-    languageToggle.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE, ButtonVariant.LUMO_SMALL);
-    languageToggle.addClassNames("terminal-status-language");
-
-    var rightCluster = new Div(clockLabel, languageToggle);
+    var rightCluster = new Div(clockLabel);
     rightCluster.addClassNames(
         "terminal-status-right",
         LumoUtility.Display.FLEX,
@@ -136,12 +129,6 @@ public final class TerminalStatusBar extends Composite<Div> {
     pbxTag.setActive(connected);
     recordingTag.setActive(recording);
     loggingTag.setActive(hasCall);
-  }
-
-  private void toggleLocale() {
-    var current = localeService.currentLocale();
-    var next = current.getLanguage().equals("cs") ? Locale.ENGLISH : new Locale("cs", "CZ");
-    localeService.switchLocale(next);
   }
 
   private void startClock(AttachEvent attachEvent) {

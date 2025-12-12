@@ -7,7 +7,8 @@ public record AudioSlice(
     List<AudioDevice> inputDevices,
     List<AudioDevice> outputDevices,
     String selectedInputDeviceId,
-    String selectedOutputDeviceId,
+    String primaryOutputDeviceId,
+    String secondaryOutputDeviceId,
     AudioRoute activeRoute,
     boolean muted) {
 
@@ -20,7 +21,7 @@ public record AudioSlice(
   }
 
   public static AudioSlice initial() {
-    return new AudioSlice(List.of(), List.of(), null, null, AudioRoute.SYSTEM_DEFAULT, false);
+    return new AudioSlice(List.of(), List.of(), null, null, null, AudioRoute.SYSTEM_DEFAULT, false);
   }
 
   public boolean hasInputDevice(String deviceId) {
@@ -35,9 +36,17 @@ public record AudioSlice(
     var nextInputs = List.copyOf(inputs);
     var nextOutputs = List.copyOf(outputs);
     var nextInputSelection = pickSelection(nextInputs, selectedInputDeviceId);
-    var nextOutputSelection = pickSelection(nextOutputs, selectedOutputDeviceId);
+    var nextPrimarySelection = pickSelection(nextOutputs, primaryOutputDeviceId);
+    var nextSecondarySelection =
+        pickSecondarySelection(nextOutputs, secondaryOutputDeviceId, nextPrimarySelection);
     return new AudioSlice(
-        nextInputs, nextOutputs, nextInputSelection, nextOutputSelection, activeRoute, muted);
+        nextInputs,
+        nextOutputs,
+        nextInputSelection,
+        nextPrimarySelection,
+        nextSecondarySelection,
+        activeRoute,
+        muted);
   }
 
   public AudioSlice withSelectedInput(String deviceId) {
@@ -48,18 +57,47 @@ public record AudioSlice(
       return this;
     }
     return new AudioSlice(
-        inputDevices, outputDevices, deviceId, selectedOutputDeviceId, activeRoute, muted);
+        inputDevices,
+        outputDevices,
+        deviceId,
+        primaryOutputDeviceId,
+        secondaryOutputDeviceId,
+        activeRoute,
+        muted);
   }
 
-  public AudioSlice withSelectedOutput(String deviceId) {
-    if (deviceId == null || !hasOutputDevice(deviceId)) {
+  public AudioSlice withPrimaryOutput(String deviceId) {
+    if (deviceId != null && !hasOutputDevice(deviceId)) {
       return this;
     }
-    if (Objects.equals(deviceId, selectedOutputDeviceId)) {
+    if (Objects.equals(deviceId, primaryOutputDeviceId)) {
       return this;
     }
     return new AudioSlice(
-        inputDevices, outputDevices, selectedInputDeviceId, deviceId, activeRoute, muted);
+        inputDevices,
+        outputDevices,
+        selectedInputDeviceId,
+        deviceId,
+        secondaryOutputDeviceId,
+        activeRoute,
+        muted);
+  }
+
+  public AudioSlice withSecondaryOutput(String deviceId) {
+    if (deviceId != null && !hasOutputDevice(deviceId)) {
+      return this;
+    }
+    if (Objects.equals(deviceId, secondaryOutputDeviceId)) {
+      return this;
+    }
+    return new AudioSlice(
+        inputDevices,
+        outputDevices,
+        selectedInputDeviceId,
+        primaryOutputDeviceId,
+        deviceId,
+        activeRoute,
+        muted);
   }
 
   public AudioSlice withRoute(AudioRoute route) {
@@ -67,7 +105,13 @@ public record AudioSlice(
       return this;
     }
     return new AudioSlice(
-        inputDevices, outputDevices, selectedInputDeviceId, selectedOutputDeviceId, route, muted);
+        inputDevices,
+        outputDevices,
+        selectedInputDeviceId,
+        primaryOutputDeviceId,
+        secondaryOutputDeviceId,
+        route,
+        muted);
   }
 
   public AudioSlice withMuted(boolean value) {
@@ -78,7 +122,8 @@ public record AudioSlice(
         inputDevices,
         outputDevices,
         selectedInputDeviceId,
-        selectedOutputDeviceId,
+        primaryOutputDeviceId,
+        secondaryOutputDeviceId,
         activeRoute,
         value);
   }
@@ -91,6 +136,25 @@ public record AudioSlice(
       }
     }
     return devices.isEmpty() ? null : devices.get(0).id();
+  }
+
+  private static String pickSecondarySelection(
+      List<AudioDevice> devices, String preferred, String resolvedPrimary) {
+    if (preferred != null) {
+      var exists =
+          devices.stream()
+              .map(AudioDevice::id)
+              .filter(id -> !Objects.equals(id, resolvedPrimary))
+              .anyMatch(id -> id.equals(preferred));
+      if (exists) {
+        return preferred;
+      }
+    }
+    return devices.stream()
+        .map(AudioDevice::id)
+        .filter(id -> !Objects.equals(id, resolvedPrimary))
+        .findFirst()
+        .orElse(null);
   }
 
   public record AudioDevice(String id, String label, AudioDeviceType type) {

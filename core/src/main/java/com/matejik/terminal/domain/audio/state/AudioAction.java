@@ -11,6 +11,8 @@ public sealed interface AudioAction extends AppAction
     permits AudioAction.ReplaceDeviceLists,
         AudioAction.SelectDevice,
         AudioAction.ChangeRoute,
+        AudioAction.UpdatePrimaryOutput,
+        AudioAction.UpdateSecondaryOutput,
         AudioAction.UpdateMute {
 
   record ReplaceDeviceLists(List<AudioDevice> inputs, List<AudioDevice> outputs)
@@ -36,6 +38,10 @@ public sealed interface AudioAction extends AppAction
       Objects.requireNonNull(route, "route");
     }
   }
+
+  record UpdatePrimaryOutput(String deviceId) implements AudioAction {}
+
+  record UpdateSecondaryOutput(String deviceId) implements AudioAction {}
 
   record UpdateMute(boolean muted) implements AudioAction {}
 }

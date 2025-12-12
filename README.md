@@ -1,31 +1,4 @@
-# Terminal README
-
-Terminal is now split into three Maven modules so that you can ship two customer-specific variants on top of a shared Vaadin/Spring Boot core:
-
-- **core** – contains all shared Vaadin views, services, data access, resources, and tests that used to live under `src`.
-- **product** – brings in the `core` module and contains brand-specific bootstrapping/resources for the Product customer.
-- **skoda** – same idea as `product`, but with Skoda-specific overrides.
-
-## Project Structure
-
-```
-.
-├── core
-│   └── src
-│       ├── main/java/com/matejik/...
-│       ├── main/frontend
-│       └── test/java/com/matejik/...
-├── product
-│   └── src
-│       ├── main/java/com/matejik/product/ProductApplication.java
-│       └── main/resources/application-product.properties
-└── skoda
-    └── src
-        ├── main/java/com/matejik/skoda/SkodaApplication.java
-        └── main/resources/application-skoda.properties
-```
-
-`Application.java` (in the `core` module) is still the main Spring Boot/Vaadin configuration class. The two brand modules simply start that configuration with their own active profile so they can override beans, themes, or properties as needed.
+# Terminal
 
 ## Running the Applications
 

@@ -57,7 +57,27 @@ public class AudioClientBridge extends Component {
   }
 
   public void playTestSound() {
-    getElement().callJsFunction("playTestSound");
+    playTestSound(null);
+  }
+
+  public void playTestSound(String deviceId) {
+    getElement().callJsFunction("playTestSound", deviceId);
+  }
+
+  public void startMicTest() {
+    getElement().callJsFunction("startMicTest");
+  }
+
+  public void stopMicTest() {
+    getElement().callJsFunction("stopMicTest");
+  }
+
+  public void setOutputVolume(double volume) {
+    getElement().callJsFunction("setOutputVolume", volume);
+  }
+
+  public void setMicrophoneMute(boolean muted) {
+    getElement().callJsFunction("setMicrophoneMute", muted);
   }
 
   @ClientCallable
@@ -83,6 +103,16 @@ public class AudioClientBridge extends Component {
   @ClientCallable
   private void reportError(String message) {
     audioDeviceAdapter.handleClientError(message);
+  }
+
+  @ClientCallable
+  private void reportMicTestState(boolean recording) {
+    audioDeviceAdapter.handleMicTestState(recording);
+  }
+
+  @ClientCallable
+  private void reportMicrophoneMute(boolean muted) {
+    audioDeviceAdapter.handleClientMicrophoneMute(muted);
   }
 
   private List<AudioDeviceSnapshot> mapSnapshots(JsonArray payload) {
