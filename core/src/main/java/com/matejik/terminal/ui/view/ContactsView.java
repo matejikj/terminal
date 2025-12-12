@@ -1,4 +1,4 @@
-package com.matejik.terminal.ui.views;
+package com.matejik.terminal.ui.view;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.html.Div;

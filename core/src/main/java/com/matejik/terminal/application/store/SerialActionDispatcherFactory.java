@@ -6,11 +6,11 @@ import java.util.function.Consumer;
 import org.springframework.stereotype.Component;
 
 @Component
-final class SerialDispatchExecutorFactory implements SerialExecutorFactory {
+final class SerialActionDispatcherFactory implements SerialActionDispatcher {
 
   private final SharedBackendPool backendPool;
 
-  SerialDispatchExecutorFactory(SharedBackendPool backendPool) {
+  SerialActionDispatcherFactory(SharedBackendPool backendPool) {
     this.backendPool = backendPool;
   }
 

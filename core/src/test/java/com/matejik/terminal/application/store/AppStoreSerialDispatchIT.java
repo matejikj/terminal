@@ -111,7 +111,7 @@ final class AppStoreSerialDispatchIT {
 
   private AppStore createStore() {
     backend = Executors.newFixedThreadPool(8);
-    SerialExecutorFactory factory = errorHandler -> new SerialExecutor(backend, errorHandler);
+    SerialActionDispatcher factory = errorHandler -> new SerialExecutor(backend, errorHandler);
     return new AppStore(factory);
   }
 

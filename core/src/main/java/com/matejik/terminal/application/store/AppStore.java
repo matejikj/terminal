@@ -25,8 +25,8 @@ public class AppStore {
   private final CopyOnWriteArrayList<Consumer<AppState>> listeners = new CopyOnWriteArrayList<>();
   private final SerialExecutor dispatcher;
 
-  public AppStore(SerialExecutorFactory executorFactory) {
-    this.dispatcher = executorFactory.create(this::handleDispatchFailure);
+  public AppStore(SerialActionDispatcher dispatcherFactory) {
+    this.dispatcher = dispatcherFactory.create(this::handleDispatchFailure);
   }
 
   public AppState snapshot() {

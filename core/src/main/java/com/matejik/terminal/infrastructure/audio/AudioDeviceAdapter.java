@@ -5,7 +5,7 @@ import com.matejik.terminal.domain.audio.AudioDeviceSnapshot;
 import com.matejik.terminal.domain.audio.AudioDeviceType;
 import com.matejik.terminal.domain.audio.AudioRoute;
 import com.matejik.terminal.domain.audio.event.AudioDomainEvent;
-import com.matejik.terminal.ui.components.AudioClientBridge;
+import com.matejik.terminal.ui.component.AudioClientBridge;
 import com.vaadin.flow.spring.annotation.VaadinSessionScope;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;

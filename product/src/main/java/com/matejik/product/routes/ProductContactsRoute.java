@@ -1,7 +1,7 @@
 package com.matejik.product.routes;
 
-import com.matejik.terminal.layout.TerminalLayout;
-import com.matejik.terminal.ui.views.ContactsView;
+import com.matejik.terminal.ui.view.ContactsView;
+import com.matejik.terminal.ui.view.TerminalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 

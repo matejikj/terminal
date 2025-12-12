@@ -1,4 +1,4 @@
-package com.matejik.terminal.layout;
+package com.matejik.terminal.ui.component;
 
 import com.matejik.terminal.i18n.TerminalLocaleService;
 import com.matejik.terminal.navigation.TerminalNavItem;

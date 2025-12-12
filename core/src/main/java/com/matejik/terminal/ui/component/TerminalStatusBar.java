@@ -1,4 +1,4 @@
-package com.matejik.terminal.layout;
+package com.matejik.terminal.ui.component;
 
 import com.matejik.terminal.application.state.AppState;
 import com.matejik.terminal.application.state.CallSlice.CallPhase;

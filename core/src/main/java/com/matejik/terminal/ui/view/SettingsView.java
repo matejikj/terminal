@@ -1,4 +1,4 @@
-package com.matejik.terminal.ui.views;
+package com.matejik.terminal.ui.view;
 
 import com.matejik.sip.SipAccountCredentials;
 import com.matejik.terminal.application.command.RegistrationCommandService;

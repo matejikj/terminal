@@ -1,4 +1,4 @@
-package com.matejik.terminal.ui.components;
+package com.matejik.terminal.ui.component;
 
 import com.matejik.terminal.domain.audio.AudioDeviceSnapshot;
 import com.matejik.terminal.domain.audio.AudioDeviceType;

@@ -1,4 +1,4 @@
-package com.matejik.terminal.layout;
+package com.matejik.terminal.ui.component;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;

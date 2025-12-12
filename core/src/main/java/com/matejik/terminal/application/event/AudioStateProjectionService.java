@@ -1,4 +1,4 @@
-package com.matejik.terminal.application.command;
+package com.matejik.terminal.application.event;
 
 import com.matejik.terminal.application.state.AudioSlice.AudioDevice;
 import com.matejik.terminal.application.state.AudioSlice.AudioDeviceType;

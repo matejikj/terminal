@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.matejik.terminal.application.state.CallSlice.CallView;
 import com.matejik.terminal.application.store.AppStore;
-import com.matejik.terminal.application.store.SerialExecutorFactory;
+import com.matejik.terminal.application.store.SerialActionDispatcher;
 import com.matejik.terminal.common.concurrent.SerialExecutor;
 import com.matejik.terminal.domain.call.CallDirection;
 import com.matejik.terminal.domain.call.CallSnapshot;
@@ -26,7 +26,7 @@ final class CallCommandServiceTest {
     callPort = new TestCallPort();
     store =
         new AppStore(
-            new SerialExecutorFactory() {
+            new SerialActionDispatcher() {
               @Override
               public SerialExecutor create(java.util.function.Consumer<Throwable> errorHandler) {
                 Executor executor = Runnable::run;
