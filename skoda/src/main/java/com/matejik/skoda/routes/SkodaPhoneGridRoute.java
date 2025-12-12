@@ -12,7 +12,7 @@ import com.vaadin.flow.router.RouteAlias;
 @PageTitle("Telefon")
 public class SkodaPhoneGridRoute extends PhoneGridView {
 
-    public SkodaPhoneGridRoute(SipTerminalService service) {
-        super(service);
-    }
+  public SkodaPhoneGridRoute(SipTerminalService service) {
+    super(service);
+  }
 }

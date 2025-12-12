@@ -11,7 +11,8 @@ import com.vaadin.flow.router.Route;
 @PageTitle("Nastavení")
 public class SkodaSettingsRoute extends SettingsView {
 
-    public SkodaSettingsRoute(TerminalLocaleService localeService, SipTerminalService sipTerminalService) {
-        super(localeService, sipTerminalService);
-    }
+  public SkodaSettingsRoute(
+      TerminalLocaleService localeService, SipTerminalService sipTerminalService) {
+    super(localeService, sipTerminalService);
+  }
 }

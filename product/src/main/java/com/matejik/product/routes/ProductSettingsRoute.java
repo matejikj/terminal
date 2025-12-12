@@ -11,7 +11,8 @@ import com.vaadin.flow.router.Route;
 @PageTitle("Settings")
 public class ProductSettingsRoute extends SettingsView {
 
-    public ProductSettingsRoute(TerminalLocaleService localeService, SipTerminalService sipTerminalService) {
-        super(localeService, sipTerminalService);
-    }
+  public ProductSettingsRoute(
+      TerminalLocaleService localeService, SipTerminalService sipTerminalService) {
+    super(localeService, sipTerminalService);
+  }
 }

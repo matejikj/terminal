@@ -7,13 +7,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductBrandProfile implements BrandProfile {
 
-    @Override
-    public String name() {
-        return "Terminal Product";
-    }
+  @Override
+  public String name() {
+    return "Terminal Product";
+  }
 
-    @Override
-    public com.vaadin.flow.component.Component logo() {
-        return new Span("TP");
-    }
+  @Override
+  public com.vaadin.flow.component.Component logo() {
+    return new Span("TP");
+  }
 }

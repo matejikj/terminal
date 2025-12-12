@@ -13,45 +13,46 @@ import com.vaadin.flow.component.html.Div;
 @CssImport("./themes/terminal/styles.css")
 public class TerminalLayout extends AppLayout {
 
-    private final Div viewContainer = new Div();
+  private final Div viewContainer = new Div();
 
-    public TerminalLayout(BrandProfile brandProfile,
-                          TerminalNavigationRegistry navigationRegistry,
-                          SipTerminalService sipTerminalService,
-                          TerminalLocaleService localeService,
-                          StateStore stateStore) {
-        setPrimarySection(Section.NAVBAR);
-        getElement().getStyle().set("height", "100%");
-        getElement().getStyle().set("width", "100%");
-        getElement().getStyle().set("overflow", "hidden");
+  public TerminalLayout(
+      BrandProfile brandProfile,
+      TerminalNavigationRegistry navigationRegistry,
+      SipTerminalService sipTerminalService,
+      TerminalLocaleService localeService,
+      StateStore stateStore) {
+    setPrimarySection(Section.NAVBAR);
+    getElement().getStyle().set("height", "100%");
+    getElement().getStyle().set("width", "100%");
+    getElement().getStyle().set("overflow", "hidden");
 
-        var stage = new Div();
-        stage.addClassNames("terminal-stage");
+    var stage = new Div();
+    stage.addClassNames("terminal-stage");
 
-        var statusBar = new TerminalStatusBar(brandProfile, sipTerminalService, localeService);
+    var statusBar = new TerminalStatusBar(brandProfile, sipTerminalService, localeService);
 
-        var shell = new Div();
-        shell.addClassNames("terminal-shell");
+    var shell = new Div();
+    shell.addClassNames("terminal-shell");
 
-        shell.add(new TerminalMenu(navigationRegistry, stateStore));
+    shell.add(new TerminalMenu(navigationRegistry, stateStore));
 
-        viewContainer.addClassNames("terminal-main-content");
-        var main = new Div(viewContainer);
-        main.addClassNames("terminal-main");
-        shell.add(main);
+    viewContainer.addClassNames("terminal-main-content");
+    var main = new Div(viewContainer);
+    main.addClassNames("terminal-main");
+    shell.add(main);
 
-        shell.add(new ActiveCallsPanel(sipTerminalService));
-        shell.add(new QuickActionsSidebar());
+    shell.add(new ActiveCallsPanel(sipTerminalService));
+    shell.add(new QuickActionsSidebar());
 
-        stage.add(statusBar, shell);
-        setContent(stage);
+    stage.add(statusBar, shell);
+    setContent(stage);
+  }
+
+  @Override
+  public void showRouterLayoutContent(HasElement content) {
+    viewContainer.getElement().removeAllChildren();
+    if (content != null) {
+      viewContainer.getElement().appendChild(content.getElement());
     }
-
-    @Override
-    public void showRouterLayoutContent(HasElement content) {
-        viewContainer.getElement().removeAllChildren();
-        if (content != null) {
-            viewContainer.getElement().appendChild(content.getElement());
-        }
-    }
+  }
 }

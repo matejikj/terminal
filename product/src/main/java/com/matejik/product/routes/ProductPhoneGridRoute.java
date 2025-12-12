@@ -12,7 +12,7 @@ import com.vaadin.flow.router.RouteAlias;
 @PageTitle("Phone")
 public class ProductPhoneGridRoute extends PhoneGridView {
 
-    public ProductPhoneGridRoute(SipTerminalService sipTerminalService) {
-        super(sipTerminalService);
-    }
+  public ProductPhoneGridRoute(SipTerminalService sipTerminalService) {
+    super(sipTerminalService);
+  }
 }

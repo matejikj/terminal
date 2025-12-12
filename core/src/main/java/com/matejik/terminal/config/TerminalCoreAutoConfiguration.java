@@ -16,26 +16,26 @@ import org.springframework.web.client.RestClient;
 @EnableConfigurationProperties(TerminalProperties.class)
 public class TerminalCoreAutoConfiguration {
 
-    @Bean
-    RestClient terminalRestClient(RestClient.Builder builder, TerminalProperties properties) {
-        return builder
-                .requestFactory(new JdkClientHttpRequestFactory())
-                .baseUrl(properties.api().getBaseUrl().toString())
-                .build();
-    }
+  @Bean
+  RestClient terminalRestClient(RestClient.Builder builder, TerminalProperties properties) {
+    return builder
+        .requestFactory(new JdkClientHttpRequestFactory())
+        .baseUrl(properties.api().getBaseUrl().toString())
+        .build();
+  }
 
-    @Bean
-    I18NProvider terminalI18NProvider(TerminalProperties properties) {
-        return new TerminalI18NProvider(properties.ui().getDefaultLocale());
-    }
+  @Bean
+  I18NProvider terminalI18NProvider(TerminalProperties properties) {
+    return new TerminalI18NProvider(properties.ui().getDefaultLocale());
+  }
 
-    @Bean
-    @VaadinSessionScope
-    SipClient sipClient(TerminalProperties properties) {
-        // TODO: inject native client factory when the JNI bindings are wired
-        if (properties.sip().getMode() == TerminalProperties.SipBackendMode.NATIVE) {
-            throw new IllegalStateException("Native SIP backend not yet wired");
-        }
-        return new MockSipClient();
+  @Bean
+  @VaadinSessionScope
+  SipClient sipClient(TerminalProperties properties) {
+    // TODO: inject native client factory when the JNI bindings are wired
+    if (properties.sip().getMode() == TerminalProperties.SipBackendMode.NATIVE) {
+      throw new IllegalStateException("Native SIP backend not yet wired");
     }
+    return new MockSipClient();
+  }
 }

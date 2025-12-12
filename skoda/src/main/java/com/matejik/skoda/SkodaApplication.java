@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SkodaApplication implements AppShellConfigurator {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SkodaApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(SkodaApplication.class, args);
+  }
 }

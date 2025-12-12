@@ -7,5 +7,4 @@ import com.vaadin.flow.router.Route;
 
 @Route(value = "kontakty", layout = TerminalLayout.class)
 @PageTitle("Kontakty")
-public class SkodaContactsRoute extends ContactsView {
-}
+public class SkodaContactsRoute extends ContactsView {}
