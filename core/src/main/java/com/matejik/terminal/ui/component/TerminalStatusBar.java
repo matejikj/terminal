@@ -1,9 +1,9 @@
 package com.matejik.terminal.ui.component;
 
 import com.matejik.terminal.application.state.AppState;
-import com.matejik.terminal.application.state.CallSlice.CallPhase;
+import com.matejik.terminal.domain.call.state.CallSlice.CallPhase;
 import com.matejik.terminal.application.store.AppStore;
-import com.matejik.terminal.brand.BrandProfile;
+import com.matejik.terminal.application.brand.BrandProfile;
 import com.matejik.terminal.domain.registration.RegistrationStatus;
 import com.matejik.terminal.i18n.TerminalLocaleService;
 import com.vaadin.flow.component.AttachEvent;

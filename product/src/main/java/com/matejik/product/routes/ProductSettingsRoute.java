@@ -1,6 +1,6 @@
 package com.matejik.product.routes;
 
-import com.matejik.terminal.application.command.RegistrationCommandService;
+import com.matejik.terminal.domain.registration.command.RegistrationCommandService;
 import com.matejik.terminal.i18n.TerminalLocaleService;
 import com.matejik.terminal.ui.view.SettingsView;
 import com.matejik.terminal.ui.view.TerminalLayout;

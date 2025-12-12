@@ -1,11 +1,11 @@
 package com.matejik.terminal.ui.view;
 
-import com.matejik.terminal.application.command.CallCommandService;
+import com.matejik.terminal.domain.call.command.CallCommandService;
 import com.matejik.terminal.application.store.AppStore;
-import com.matejik.terminal.brand.BrandProfile;
+import com.matejik.terminal.application.brand.BrandProfile;
 import com.matejik.terminal.i18n.TerminalLocaleService;
 import com.matejik.terminal.infrastructure.audio.AudioDeviceAdapter;
-import com.matejik.terminal.navigation.TerminalNavigationRegistry;
+import com.matejik.terminal.application.navigation.TerminalNavigationRegistry;
 import com.matejik.terminal.ui.component.ActiveCallsPanel;
 import com.matejik.terminal.ui.component.AudioClientBridge;
 import com.matejik.terminal.ui.component.QuickActionsSidebar;

@@ -1,6 +1,6 @@
 package com.matejik.terminal.infrastructure.audio;
 
-import com.matejik.terminal.common.concurrent.SharedBackendPool;
+import com.matejik.terminal.application.concurrent.SharedBackendPool;
 import com.matejik.terminal.domain.audio.AudioDeviceSnapshot;
 import com.matejik.terminal.domain.audio.AudioDeviceType;
 import com.matejik.terminal.domain.audio.AudioRoute;

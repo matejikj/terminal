@@ -1,6 +1,6 @@
 package com.matejik.product.routes;
 
-import com.matejik.terminal.application.command.CallCommandService;
+import com.matejik.terminal.domain.call.command.CallCommandService;
 import com.matejik.terminal.application.store.AppStore;
 import com.matejik.terminal.ui.view.PhoneGridView;
 import com.matejik.terminal.ui.view.TerminalLayout;

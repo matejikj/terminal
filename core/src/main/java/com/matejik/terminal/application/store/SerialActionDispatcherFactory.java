@@ -1,7 +1,7 @@
 package com.matejik.terminal.application.store;
 
-import com.matejik.terminal.common.concurrent.SerialExecutor;
-import com.matejik.terminal.common.concurrent.SharedBackendPool;
+import com.matejik.terminal.application.concurrent.SerialExecutor;
+import com.matejik.terminal.application.concurrent.SharedBackendPool;
 import java.util.function.Consumer;
 import org.springframework.stereotype.Component;
 

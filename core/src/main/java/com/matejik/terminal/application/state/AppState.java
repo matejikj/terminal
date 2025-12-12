@@ -1,5 +1,8 @@
 package com.matejik.terminal.application.state;
 
+import com.matejik.terminal.domain.audio.state.AudioSlice;
+import com.matejik.terminal.domain.call.state.CallSlice;
+import com.matejik.terminal.domain.registration.state.RegistrationSlice;
 import java.util.Objects;
 
 /**

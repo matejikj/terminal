@@ -3,6 +3,8 @@ package com.matejik.terminal.config;
 import java.net.URI;
 import java.time.Duration;
 import java.util.Locale;
+
+import com.matejik.terminal.application.data.CollectionService;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "terminal")
@@ -30,7 +32,7 @@ public class TerminalProperties {
 
     /**
      * TTL for cached collection data inside the {@link
-     * com.matejik.terminal.data.CollectionService}.
+     * CollectionService}.
      */
     private Duration cacheTtl = Duration.ofSeconds(30);
 

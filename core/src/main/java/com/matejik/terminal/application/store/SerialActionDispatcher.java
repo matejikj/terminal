@@ -1,6 +1,6 @@
 package com.matejik.terminal.application.store;
 
-import com.matejik.terminal.common.concurrent.SerialExecutor;
+import com.matejik.terminal.application.concurrent.SerialExecutor;
 import java.util.function.Consumer;
 
 public interface SerialActionDispatcher {

@@ -1,8 +1,8 @@
 package com.matejik.terminal.ui.view;
 
-import com.matejik.terminal.application.command.CallCommandService;
-import com.matejik.terminal.application.state.CallSlice;
+import com.matejik.terminal.domain.call.command.CallCommandService;
 import com.matejik.terminal.application.store.AppStore;
+import com.matejik.terminal.domain.call.state.CallSlice;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.DetachEvent;

@@ -3,7 +3,7 @@ package com.matejik.terminal.application.store;
 import com.matejik.terminal.application.state.AppState;
 import com.matejik.terminal.application.state.actions.AppAction;
 import com.matejik.terminal.application.state.reducer.AppStateReducer;
-import com.matejik.terminal.common.concurrent.SerialExecutor;
+import com.matejik.terminal.application.concurrent.SerialExecutor;
 import com.vaadin.flow.shared.Registration;
 import com.vaadin.flow.spring.annotation.VaadinSessionScope;
 import java.util.Objects;

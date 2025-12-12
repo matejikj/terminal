@@ -1,6 +1,6 @@
 package com.matejik.skoda.brand;
 
-import com.matejik.terminal.brand.BrandProfile;
+import com.matejik.terminal.application.brand.BrandProfile;
 import com.vaadin.flow.component.html.Span;
 import org.springframework.stereotype.Component;
 
