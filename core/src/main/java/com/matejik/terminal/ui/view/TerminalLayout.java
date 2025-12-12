@@ -51,7 +51,7 @@ public class TerminalLayout extends AppLayout {
     shell.add(main);
 
     shell.add(new ActiveCallsPanel(appStore, callCommandService));
-    shell.add(new QuickActionsSidebar());
+    shell.add(new QuickActionsSidebar(audioDeviceAdapter));
     shell.add(new AudioClientBridge(audioDeviceAdapter));
 
     stage.add(statusBar, shell);

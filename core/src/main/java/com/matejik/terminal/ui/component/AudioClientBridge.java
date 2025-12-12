@@ -10,9 +10,12 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.DetachEvent;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
+import elemental.json.JsonArray;
+import elemental.json.JsonObject;
+import elemental.json.JsonValue;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 @Tag("audio-client-bridge")
 @JsModule("./src/audio-client-bridge.ts")
@@ -53,8 +56,12 @@ public class AudioClientBridge extends Component {
     getElement().callJsFunction("setMute", muted);
   }
 
+  public void playTestSound() {
+    getElement().callJsFunction("playTestSound");
+  }
+
   @ClientCallable
-  private void reportDevices(List<Map<String, String>> inputs, List<Map<String, String>> outputs) {
+  private void reportDevices(JsonArray inputs, JsonArray outputs) {
     audioDeviceAdapter.handleClientDevices(mapSnapshots(inputs), mapSnapshots(outputs));
   }
 
@@ -78,15 +85,30 @@ public class AudioClientBridge extends Component {
     audioDeviceAdapter.handleClientError(message);
   }
 
-  private List<AudioDeviceSnapshot> mapSnapshots(List<Map<String, String>> payload) {
-    return payload.stream()
-        .map(
-            entry ->
-                new AudioDeviceSnapshot(
-                    entry.getOrDefault("id", ""),
-                    entry.getOrDefault("label", ""),
-                    parseType(entry.getOrDefault("type", "INPUT"))))
-        .toList();
+  private List<AudioDeviceSnapshot> mapSnapshots(JsonArray payload) {
+    if (payload == null || payload.length() == 0) {
+      return List.of();
+    }
+    List<AudioDeviceSnapshot> devices = new ArrayList<>(payload.length());
+    for (int index = 0; index < payload.length(); index++) {
+      devices.add(mapSnapshot(payload.getObject(index)));
+    }
+    return devices;
+  }
+
+  private AudioDeviceSnapshot mapSnapshot(JsonObject entry) {
+    return new AudioDeviceSnapshot(
+        readString(entry, "id", ""),
+        readString(entry, "label", ""),
+        parseType(readString(entry, "type", "INPUT")));
+  }
+
+  private String readString(JsonObject entry, String key, String fallback) {
+    if (entry == null || !entry.hasKey(key)) {
+      return fallback;
+    }
+    JsonValue value = entry.get(key);
+    return value == null ? fallback : value.asString();
   }
 
   private AudioDeviceType parseType(String raw) {

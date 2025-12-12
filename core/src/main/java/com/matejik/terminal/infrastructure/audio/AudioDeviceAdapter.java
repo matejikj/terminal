@@ -52,6 +52,11 @@ public class AudioDeviceAdapter {
     backendPool.runAsync(() -> sendCommand(bridge -> bridge.setMute(muted)));
   }
 
+  public void playTestSound() {
+    System.out.println("Playing test sound...");
+    backendPool.runAsync(() -> sendCommand(AudioClientBridge::playTestSound));
+  }
+
   public void registerClient(AudioClientBridge bridge) {
     clientBridge.set(bridge);
     refreshDevices();

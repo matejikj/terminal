@@ -2,6 +2,7 @@ class AudioClientBridgeElement extends HTMLElement {
   private mediaStream?: MediaStream;
   private selectedInput?: string;
   private selectedOutput?: string;
+  private audioContext?: AudioContext;
 
   connectedCallback() {
     navigator.mediaDevices?.addEventListener('devicechange', () => this.requestDeviceList());
@@ -82,6 +83,34 @@ class AudioClientBridgeElement extends HTMLElement {
     });
     // @ts-ignore
     this.$server?.reportMute(muted);
+  }
+
+  async playTestSound() {
+    try {
+      const context = await this.getOrCreateAudioContext();
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
+      oscillator.type = 'sine';
+      oscillator.frequency.value = 880;
+      gain.gain.setValueAtTime(0, context.currentTime);
+      gain.gain.linearRampToValueAtTime(0.25, context.currentTime + 0.02);
+      gain.gain.linearRampToValueAtTime(0, context.currentTime + 1);
+      oscillator.connect(gain).connect(context.destination);
+      oscillator.start();
+      oscillator.stop(context.currentTime + 1);
+    } catch (error) {
+      this.reportError(error);
+    }
+  }
+
+  private async getOrCreateAudioContext(): Promise<AudioContext> {
+    if (!this.audioContext) {
+      this.audioContext = new AudioContext();
+    }
+    if (this.audioContext.state === 'suspended') {
+      await this.audioContext.resume();
+    }
+    return this.audioContext;
   }
 
   private reportError(error: unknown) {
