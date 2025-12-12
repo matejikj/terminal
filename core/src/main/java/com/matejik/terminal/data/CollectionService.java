@@ -1,13 +1,13 @@
 package com.matejik.terminal.data;
 
+import com.matejik.terminal.common.concurrent.SharedBackendPool;
 import com.matejik.terminal.config.TerminalProperties;
-import com.matejik.terminal.state.StateKey;
-import com.matejik.terminal.state.StateStore;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestClient;
@@ -16,26 +16,30 @@ public abstract class CollectionService<T, ID> {
 
   private final RestClient restClient;
   private final TerminalProperties properties;
-  private final StateStore stateStore;
-  private final StateKey<CollectionState<T>> cacheKey;
+  private final SharedBackendPool backendPool;
+  private volatile CollectionState<T> cache = CollectionState.empty();
 
   protected CollectionService(
-      RestClient restClient,
-      TerminalProperties properties,
-      StateStore stateStore,
-      StateKey<CollectionState<T>> cacheKey) {
-    this.restClient = restClient;
-    this.properties = properties;
-    this.stateStore = stateStore;
-    this.cacheKey = cacheKey;
+      RestClient restClient, TerminalProperties properties, SharedBackendPool backendPool) {
+    this.restClient = Objects.requireNonNull(restClient, "restClient");
+    this.properties = Objects.requireNonNull(properties, "properties");
+    this.backendPool = Objects.requireNonNull(backendPool, "backendPool");
   }
 
   public List<T> fetchItems() {
     return fetchItems(false);
   }
 
+  public CompletableFuture<List<T>> fetchItemsAsync() {
+    return fetchItemsAsync(false);
+  }
+
+  public CompletableFuture<List<T>> fetchItemsAsync(boolean forceRefresh) {
+    return backendPool.supplyAsync(() -> fetchItems(forceRefresh));
+  }
+
   public List<T> fetchItems(boolean forceRefresh) {
-    var cached = stateStore.get(cacheKey);
+    var cached = cache;
     var validCache =
         cached != null
             && !forceRefresh
@@ -46,7 +50,7 @@ public abstract class CollectionService<T, ID> {
     var response = restClient.get().uri(resourcePath()).retrieve().body(listType());
     var snapshot =
         new CollectionState<>(List.copyOf(response == null ? List.of() : response), Instant.now());
-    stateStore.set(cacheKey, snapshot);
+    cache = snapshot;
     return snapshot.items();
   }
 
@@ -63,6 +67,10 @@ public abstract class CollectionService<T, ID> {
       return created;
     }
     return item;
+  }
+
+  public CompletableFuture<T> createItemAsync(T item) {
+    return backendPool.supplyAsync(() -> createItem(item));
   }
 
   public T updateItem(T item) {
@@ -87,6 +95,10 @@ public abstract class CollectionService<T, ID> {
     return item;
   }
 
+  public CompletableFuture<T> updateItemAsync(T item) {
+    return backendPool.supplyAsync(() -> updateItem(item));
+  }
+
   public void deleteItem(T item) {
     Objects.requireNonNull(item, "item");
     restClient.delete().uri(itemUri(getId(item))).retrieve().toBodilessEntity();
@@ -96,6 +108,10 @@ public abstract class CollectionService<T, ID> {
           copy.removeIf(existing -> Objects.equals(getId(existing), getId(item)));
           return copy;
         });
+  }
+
+  public CompletableFuture<Void> deleteItemAsync(T item) {
+    return backendPool.runAsync(() -> deleteItem(item));
   }
 
   protected String itemUri(ID id) {
@@ -111,12 +127,10 @@ public abstract class CollectionService<T, ID> {
   protected abstract ID getId(T entity);
 
   private void mutateCache(Function<List<T>, List<T>> mutator) {
-    stateStore.update(
-        cacheKey,
-        snapshot -> {
-          var current = snapshot == null ? CollectionState.<T>empty() : snapshot;
-          var mutated = mutator.apply(current.items());
-          return new CollectionState<>(List.copyOf(mutated), Instant.now());
-        });
+    synchronized (this) {
+      var current = cache == null ? CollectionState.<T>empty() : cache;
+      var mutated = mutator.apply(current.items());
+      cache = new CollectionState<>(List.copyOf(mutated), Instant.now());
+    }
   }
 }

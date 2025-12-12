@@ -1,9 +1,8 @@
 package com.matejik.terminal.layout;
 
+import com.matejik.terminal.i18n.TerminalLocaleService;
 import com.matejik.terminal.navigation.TerminalNavItem;
 import com.matejik.terminal.navigation.TerminalNavigationRegistry;
-import com.matejik.terminal.state.StateStore;
-import com.matejik.terminal.state.TerminalStateKeys;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.DetachEvent;
@@ -21,12 +20,13 @@ import java.util.List;
 public final class TerminalMenu extends Composite<Div> implements AfterNavigationListener {
 
   private final List<MenuEntry> entries = new ArrayList<>();
-  private final StateStore stateStore;
+  private final TerminalLocaleService localeService;
   private Registration localeRegistration;
   private Registration navigationRegistration;
 
-  public TerminalMenu(TerminalNavigationRegistry navigationRegistry, StateStore stateStore) {
-    this.stateStore = stateStore;
+  public TerminalMenu(
+      TerminalNavigationRegistry navigationRegistry, TerminalLocaleService localeService) {
+    this.localeService = localeService;
     var container = getContent();
     container.addClassNames(
         "terminal-left-sidebar",
@@ -52,9 +52,7 @@ public final class TerminalMenu extends Composite<Div> implements AfterNavigatio
     super.onAttach(attachEvent);
     updateLocale();
     localeRegistration =
-        stateStore.addListener(
-            TerminalStateKeys.ACTIVE_LOCALE,
-            locale -> attachEvent.getUI().access(this::updateLocale));
+        localeService.addListener(locale -> attachEvent.getUI().access(this::updateLocale));
     navigationRegistration = attachEvent.getUI().addAfterNavigationListener(this);
     attachEvent.getUI().access(this::refreshSelection);
   }

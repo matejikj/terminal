@@ -1,9 +1,9 @@
 package com.matejik.terminal.layout;
 
-import com.matejik.sip.SipCall;
-import com.matejik.sip.SipCallState;
-import com.matejik.sip.SipSessionState;
-import com.matejik.terminal.sip.SipTerminalService;
+import com.matejik.terminal.application.command.CallCommandService;
+import com.matejik.terminal.application.state.CallSlice;
+import com.matejik.terminal.application.state.actions.CallAction;
+import com.matejik.terminal.application.store.AppStore;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
@@ -26,8 +26,9 @@ import java.util.Optional;
 
 public final class ActiveCallsPanel extends Composite<Div> {
 
-  private final SipTerminalService sipService;
-  private Registration sipRegistration;
+  private final AppStore appStore;
+  private final CallCommandService callCommandService;
+  private Registration storeRegistration;
   private final VerticalLayout callList = new VerticalLayout();
   private final Span selectedRemote = new Span();
   private final Span selectedState = new Span();
@@ -36,10 +37,11 @@ public final class ActiveCallsPanel extends Composite<Div> {
   private final Button answerButton;
   private final Button hangupButton;
   private final Div actionsGrid = new Div();
-  private SipCall selectedCall;
+  private CallSlice.CallView selectedCall;
 
-  public ActiveCallsPanel(SipTerminalService sipService) {
-    this.sipService = sipService;
+  public ActiveCallsPanel(AppStore appStore, CallCommandService callCommandService) {
+    this.appStore = appStore;
+    this.callCommandService = callCommandService;
     var container = getContent();
     container.addClassNames(
         "terminal-right-panel",
@@ -87,13 +89,17 @@ public final class ActiveCallsPanel extends Composite<Div> {
     answerButton =
         createActionButton(
             VaadinIcon.PHONE,
-            () -> Optional.ofNullable(selectedCall).ifPresent(sipService::answer));
+            () ->
+                Optional.ofNullable(selectedCall)
+                    .ifPresent(call -> callCommandService.answer(call.id())));
     answerButton.addClassNames("call-action-button", "call-action-button--primary");
 
     hangupButton =
         createActionButton(
             VaadinIcon.CLOSE_CIRCLE,
-            () -> Optional.ofNullable(selectedCall).ifPresent(sipService::hangUp));
+            () ->
+                Optional.ofNullable(selectedCall)
+                    .ifPresent(call -> callCommandService.hangUp(call.id())));
     hangupButton.addClassNames("call-action-button", "call-action-button--danger");
 
     var holdButton = createActionButton(VaadinIcon.PAUSE, this::showPlaceholderAction);
@@ -120,53 +126,37 @@ public final class ActiveCallsPanel extends Composite<Div> {
   @Override
   protected void onAttach(AttachEvent attachEvent) {
     super.onAttach(attachEvent);
-    sipRegistration =
-        sipService.observeSessionState(
-            state -> attachEvent.getUI().access(() -> updateState(state)));
+    storeRegistration =
+        appStore.subscribe(
+            state -> attachEvent.getUI().access(() -> updateState(state.callSlice())));
   }
 
   @Override
   protected void onDetach(DetachEvent detachEvent) {
     super.onDetach(detachEvent);
-    if (sipRegistration != null) {
-      sipRegistration.remove();
-      sipRegistration = null;
+    if (storeRegistration != null) {
+      storeRegistration.remove();
+      storeRegistration = null;
     }
   }
 
-  private void updateState(SipSessionState state) {
+  private void updateState(CallSlice state) {
     callList.removeAll();
     state.activeCalls().stream()
-        .sorted(Comparator.comparing(SipCall::startedAt))
+        .sorted(Comparator.comparing(CallSlice.CallView::startedAt))
         .forEach(call -> callList.add(createCallRow(call)));
-    selectedCall = pickHighlightedCall(state);
+    selectedCall = state.selectedCall().orElse(null);
     updateHighlightedCall();
   }
 
-  private SipCall pickHighlightedCall(SipSessionState state) {
-    if (selectedCall != null) {
-      var stillActive =
-          state.activeCalls().stream()
-              .filter(call -> call.id().equals(selectedCall.id()))
-              .findFirst();
-      if (stillActive.isPresent()) {
-        return stillActive.get();
-      }
-    }
-    return state.activeCalls().stream()
-        .filter(call -> call.state() == SipCallState.IN_CALL)
-        .findFirst()
-        .orElseGet(() -> state.activeCalls().stream().findFirst().orElse(null));
-  }
-
-  private Component createCallRow(SipCall call) {
+  private Component createCallRow(CallSlice.CallView call) {
     var wrapper = new Div();
     wrapper.addClassNames("terminal-call-row", "call-row" + stateTheme(call));
 
     var identity =
         new Div(
             new Span(call.remoteAddress()),
-            new Span(getTranslation("terminal.calls.state." + call.state().name().toLowerCase())));
+            new Span(getTranslation("terminal.calls.state." + call.phase().name().toLowerCase())));
     identity.addClassNames(
         "call-row__identity",
         LumoUtility.Display.FLEX,
@@ -177,8 +167,7 @@ public final class ActiveCallsPanel extends Composite<Div> {
         new Button(
             VaadinIcon.CHEVRON_RIGHT.create(),
             event -> {
-              selectedCall = call;
-              updateHighlightedCall();
+              appStore.dispatch(new CallAction.SelectCall(call.id()));
             });
     focus.addThemeVariants(ButtonVariant.LUMO_ICON, ButtonVariant.LUMO_TERTIARY_INLINE);
     focus.addClassNames("call-row__focus");
@@ -199,16 +188,16 @@ public final class ActiveCallsPanel extends Composite<Div> {
     }
     selectedRemote.setText(selectedCall.remoteAddress());
     selectedState.setText(
-        getTranslation("terminal.calls.state." + selectedCall.state().name().toLowerCase()));
+        getTranslation("terminal.calls.state." + selectedCall.phase().name().toLowerCase()));
     selectedDuration.setText(formatDuration(selectedCall));
     callAvatar.setText(buildAvatarText(selectedCall));
     answerButton.setEnabled(
-        selectedCall.state() == SipCallState.RINGING
-            || selectedCall.state() == SipCallState.CONNECTING);
+        selectedCall.phase() == CallSlice.CallPhase.RINGING
+            || selectedCall.phase() == CallSlice.CallPhase.DIALING);
     hangupButton.setEnabled(true);
   }
 
-  private String formatDuration(SipCall call) {
+  private String formatDuration(CallSlice.CallView call) {
     var startedAt = Optional.ofNullable(call.startedAt()).orElse(Instant.now());
     var duration = Duration.between(startedAt, Instant.now());
     var minutes = duration.toMinutesPart();
@@ -216,7 +205,7 @@ public final class ActiveCallsPanel extends Composite<Div> {
     return minutes + ":" + String.format("%02d", seconds);
   }
 
-  private String buildAvatarText(SipCall call) {
+  private String buildAvatarText(CallSlice.CallView call) {
     var remote = Optional.ofNullable(call.remoteAddress()).orElse("").trim();
     if (remote.isEmpty()) {
       return "CALL";
@@ -231,10 +220,10 @@ public final class ActiveCallsPanel extends Composite<Div> {
     return button;
   }
 
-  private String stateTheme(SipCall call) {
-    return switch (call.state()) {
-      case IN_CALL -> " call-row--success";
-      case RINGING, CONNECTING -> " call-row--info";
+  private String stateTheme(CallSlice.CallView call) {
+    return switch (call.phase()) {
+      case ACTIVE -> " call-row--success";
+      case RINGING, DIALING -> " call-row--info";
       default -> " call-row--idle";
     };
   }

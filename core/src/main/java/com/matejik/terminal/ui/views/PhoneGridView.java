@@ -1,8 +1,8 @@
 package com.matejik.terminal.ui.views;
 
-import com.matejik.sip.SipCall;
-import com.matejik.sip.SipSessionState;
-import com.matejik.terminal.sip.SipTerminalService;
+import com.matejik.terminal.application.command.CallCommandService;
+import com.matejik.terminal.application.state.CallSlice;
+import com.matejik.terminal.application.store.AppStore;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.DetachEvent;
@@ -20,15 +20,17 @@ import java.util.List;
 
 public class PhoneGridView extends Composite<Div> {
 
-  private final SipTerminalService sipTerminalService;
-  private Registration sipRegistration;
+  private final AppStore appStore;
+  private final CallCommandService callCommandService;
+  private Registration storeRegistration;
   private final TextField dialInput = new TextField();
   private final Button dialButton = new Button();
   private final List<TerminalTile> tiles = new ArrayList<>();
   private final String tileReadyText;
 
-  public PhoneGridView(SipTerminalService sipTerminalService) {
-    this.sipTerminalService = sipTerminalService;
+  public PhoneGridView(AppStore appStore, CallCommandService callCommandService) {
+    this.appStore = appStore;
+    this.callCommandService = callCommandService;
     this.tileReadyText = resolveReadyLabel();
     var root = getContent();
     root.addClassNames(
@@ -109,7 +111,7 @@ public class PhoneGridView extends Composite<Div> {
         event -> {
           var target = dialInput.getValue();
           if (target != null && !target.isBlank()) {
-            sipTerminalService.dial(target);
+            callCommandService.startCall(target);
             dialInput.clear();
           }
         });
@@ -132,24 +134,24 @@ public class PhoneGridView extends Composite<Div> {
   @Override
   protected void onAttach(AttachEvent attachEvent) {
     super.onAttach(attachEvent);
-    sipRegistration =
-        sipTerminalService.observeSessionState(
-            state -> attachEvent.getUI().access(() -> applyState(state)));
+    storeRegistration =
+        appStore.subscribe(
+            state -> attachEvent.getUI().access(() -> applyState(state.callSlice())));
   }
 
   @Override
   protected void onDetach(DetachEvent detachEvent) {
     super.onDetach(detachEvent);
-    if (sipRegistration != null) {
-      sipRegistration.remove();
-      sipRegistration = null;
+    if (storeRegistration != null) {
+      storeRegistration.remove();
+      storeRegistration = null;
     }
   }
 
-  private void applyState(SipSessionState state) {
+  private void applyState(CallSlice slice) {
     tiles.forEach(TerminalTile::reset);
     int index = 0;
-    for (var call : state.activeCalls()) {
+    for (var call : slice.activeCalls()) {
       if (index >= tiles.size()) {
         break;
       }
@@ -249,14 +251,14 @@ public class PhoneGridView extends Composite<Div> {
       removeClassName("terminal-tile--success");
     }
 
-    private void showCall(SipCall call) {
+    private void showCall(CallSlice.CallView call) {
       if (blueprint.disabled()) {
         return;
       }
       var stateClass =
-          switch (call.state()) {
-            case IN_CALL -> "terminal-tile--success";
-            case RINGING, CONNECTING -> "terminal-tile--alert";
+          switch (call.phase()) {
+            case ACTIVE -> "terminal-tile--success";
+            case RINGING, DIALING -> "terminal-tile--alert";
             default -> "";
           };
       if (!stateClass.isBlank()) {

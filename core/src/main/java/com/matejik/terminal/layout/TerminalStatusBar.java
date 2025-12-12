@@ -1,11 +1,11 @@
 package com.matejik.terminal.layout;
 
-import com.matejik.sip.SipCallState;
-import com.matejik.sip.SipConnectionStatus;
-import com.matejik.sip.SipSessionState;
+import com.matejik.terminal.application.state.AppState;
+import com.matejik.terminal.application.state.CallSlice.CallPhase;
+import com.matejik.terminal.application.store.AppStore;
 import com.matejik.terminal.brand.BrandProfile;
+import com.matejik.terminal.domain.registration.RegistrationStatus;
 import com.matejik.terminal.i18n.TerminalLocaleService;
-import com.matejik.terminal.sip.SipTerminalService;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.DetachEvent;
@@ -25,9 +25,9 @@ import java.util.Locale;
 
 public final class TerminalStatusBar extends Composite<Div> {
 
-  private final SipTerminalService sipService;
+  private final AppStore appStore;
   private final TerminalLocaleService localeService;
-  private Registration sipRegistration;
+  private Registration storeRegistration;
   private final Span statusLabel = new Span();
   private final Span accountLabel = new Span();
   private final Span clockLabel = new Span();
@@ -42,10 +42,8 @@ public final class TerminalStatusBar extends Composite<Div> {
   private Registration clockPollRegistration;
 
   public TerminalStatusBar(
-      BrandProfile brandProfile,
-      SipTerminalService sipService,
-      TerminalLocaleService localeService) {
-    this.sipService = sipService;
+      BrandProfile brandProfile, AppStore appStore, TerminalLocaleService localeService) {
+    this.appStore = appStore;
     this.localeService = localeService;
     var root = getContent();
     root.addClassNames(
@@ -104,36 +102,36 @@ public final class TerminalStatusBar extends Composite<Div> {
   @Override
   protected void onAttach(AttachEvent attachEvent) {
     super.onAttach(attachEvent);
-    sipRegistration =
-        sipService.observeSessionState(
-            state -> attachEvent.getUI().access(() -> applyState(state)));
+    storeRegistration =
+        appStore.subscribe(state -> attachEvent.getUI().access(() -> applyState(state)));
     startClock(attachEvent);
   }
 
   @Override
   protected void onDetach(DetachEvent detachEvent) {
     super.onDetach(detachEvent);
-    if (sipRegistration != null) {
-      sipRegistration.remove();
-      sipRegistration = null;
+    if (storeRegistration != null) {
+      storeRegistration.remove();
+      storeRegistration = null;
     }
     stopClock(detachEvent.getUI());
   }
 
-  private void applyState(SipSessionState state) {
-    var statusKey = "terminal.status." + state.connectionStatus().name().toLowerCase(Locale.ROOT);
+  private void applyState(AppState state) {
+    var registration = state.registrationSlice();
+    var statusKey = "terminal.status." + registration.status().name().toLowerCase(Locale.ROOT);
     statusLabel.setText(getTranslation(statusKey));
+
     var account =
-        state
-            .activeAccount()
-            .map(credentials -> credentials.displayName() + " (" + credentials.toSipUri() + ')')
-            .orElse(getTranslation("terminal.status.noAccount"));
+        registration.accountLabel().isBlank()
+            ? getTranslation("terminal.status.noAccount")
+            : registration.accountLabel();
     accountLabel.setText(account);
 
-    var connected = state.connectionStatus() == SipConnectionStatus.CONNECTED;
-    var hasCall = !state.activeCalls().isEmpty();
+    var connected = registration.status() == RegistrationStatus.REGISTERED;
+    var hasCall = !state.callSlice().activeCalls().isEmpty();
     var recording =
-        state.activeCalls().stream().anyMatch(call -> call.state() == SipCallState.IN_CALL);
+        state.callSlice().activeCalls().stream().anyMatch(call -> call.phase() == CallPhase.ACTIVE);
 
     pbxTag.setActive(connected);
     recordingTag.setActive(recording);

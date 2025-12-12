@@ -1,8 +1,8 @@
 package com.matejik.terminal.ui.views;
 
 import com.matejik.sip.SipAccountCredentials;
+import com.matejik.terminal.application.command.RegistrationCommandService;
 import com.matejik.terminal.i18n.TerminalLocaleService;
-import com.matejik.terminal.sip.SipTerminalService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -17,11 +17,12 @@ import java.util.Locale;
 public class SettingsView extends Composite<Div> {
 
   private final TerminalLocaleService localeService;
-  private final SipTerminalService sipService;
+  private final RegistrationCommandService registrationService;
 
-  public SettingsView(TerminalLocaleService localeService, SipTerminalService sipService) {
+  public SettingsView(
+      TerminalLocaleService localeService, RegistrationCommandService registrationService) {
     this.localeService = localeService;
-    this.sipService = sipService;
+    this.registrationService = registrationService;
     var root = getContent();
     root.addClassNames(
         LumoUtility.Display.FLEX,
@@ -85,11 +86,12 @@ public class SettingsView extends Composite<Div> {
                       username.getValue(),
                       domain.getValue(),
                       password.getValue());
-              sipService.connect(credentials);
+              registrationService.connect(credentials);
             });
     var disconnectButton =
         new Button(
-            getTranslation("terminal.settings.disconnect"), event -> sipService.disconnect());
+            getTranslation("terminal.settings.disconnect"),
+            event -> registrationService.disconnect());
     disconnectButton.addThemeVariants(com.vaadin.flow.component.button.ButtonVariant.LUMO_ERROR);
 
     card.add(title, form, new Div(connectButton, disconnectButton));
