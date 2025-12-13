@@ -1,4 +1,6 @@
 **/target/
+dist/
+packaging/target/
 .idea/
 .settings
 .project

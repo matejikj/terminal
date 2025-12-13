@@ -10,6 +10,8 @@
     <properties>
         <java.version>21</java.version>
         <vaadin.version>24.9.6</vaadin.version>
+        <dependency.analyze.skip>false</dependency.analyze.skip>
+        <dependency.analyze.failOnWarning>true</dependency.analyze.failOnWarning>
     </properties>
 
     <modules>
@@ -98,7 +100,8 @@
                         </goals>
                         <phase>verify</phase>
                         <configuration>
-                            <failOnWarning>true</failOnWarning>
+                            <failOnWarning>${dependency.analyze.failOnWarning}</failOnWarning>
+                            <skip>${dependency.analyze.skip}</skip>
                         </configuration>
                     </execution>
                 </executions>
@@ -113,6 +116,20 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>desktop-installer-build</id>
+            <activation>
+                <property>
+                    <name>desktop.installer</name>
+                </property>
+            </activation>
+            <properties>
+                <dependency.analyze.skip>true</dependency.analyze.skip>
+            </properties>
+        </profile>
+    </profiles>
 
     <repositories>
         <repository>

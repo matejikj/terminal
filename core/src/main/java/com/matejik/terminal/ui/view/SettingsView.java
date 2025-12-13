@@ -2,6 +2,7 @@ package com.matejik.terminal.ui.view;
 
 import com.matejik.sip.SipAccountCredentials;
 import com.matejik.terminal.application.store.AppStore;
+import com.matejik.terminal.application.system.ApplicationShutdownService;
 import com.matejik.terminal.domain.audio.AudioDeviceType;
 import com.matejik.terminal.domain.audio.state.AudioAction;
 import com.matejik.terminal.domain.audio.state.AudioSlice;
@@ -31,6 +32,7 @@ public class SettingsView extends Composite<Div> {
   private final RegistrationCommandService registrationService;
   private final AppStore appStore;
   private final AudioDeviceAdapter audioDeviceAdapter;
+  private final ApplicationShutdownService applicationShutdownService;
   private Registration audioStoreRegistration;
   private final Select<AudioSlice.AudioDevice> primaryOutputSelect = new Select<>();
   private final Select<AudioSlice.AudioDevice> secondaryOutputSelect = new Select<>();
@@ -50,11 +52,13 @@ public class SettingsView extends Composite<Div> {
       TerminalLocaleService localeService,
       RegistrationCommandService registrationService,
       AppStore appStore,
-      AudioDeviceAdapter audioDeviceAdapter) {
+      AudioDeviceAdapter audioDeviceAdapter,
+      ApplicationShutdownService applicationShutdownService) {
     this.localeService = localeService;
     this.registrationService = registrationService;
     this.appStore = appStore;
     this.audioDeviceAdapter = audioDeviceAdapter;
+    this.applicationShutdownService = applicationShutdownService;
     var root = getContent();
     root.addClassNames(
         LumoUtility.Display.FLEX,
@@ -62,7 +66,7 @@ public class SettingsView extends Composite<Div> {
         LumoUtility.Gap.LARGE,
         LumoUtility.MaxWidth.SCREEN_MEDIUM);
 
-    root.add(buildLocalizationCard(), buildAudioCard(), buildSipCard());
+    root.add(buildLocalizationCard(), buildAudioCard(), buildSipCard(), buildApplicationCard());
   }
 
   private Div buildLocalizationCard() {
@@ -236,6 +240,36 @@ public class SettingsView extends Composite<Div> {
 
     card.add(title, form, new Div(connectButton, disconnectButton));
     return card;
+  }
+
+  private Div buildApplicationCard() {
+    var card = new Div();
+    card.addClassNames(
+        "settings-card",
+        LumoUtility.Padding.MEDIUM,
+        LumoUtility.BorderRadius.MEDIUM,
+        LumoUtility.BoxShadow.SMALL,
+        LumoUtility.Display.FLEX,
+        LumoUtility.FlexDirection.COLUMN,
+        LumoUtility.Gap.MEDIUM);
+    var title = new H4(getTranslation("terminal.settings.application"));
+    title.addClassNames(LumoUtility.Margin.NONE);
+    var description = new Span(getTranslation("terminal.settings.shutdown.description"));
+
+    var shutdownButton = new Button(getTranslation("terminal.settings.shutdown"));
+    shutdownButton.addClickListener(event -> triggerShutdown(shutdownButton));
+    shutdownButton.setDisableOnClick(true);
+    shutdownButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+    shutdownButton.setEnabled(!applicationShutdownService.isShuttingDown());
+
+    card.add(title, description, shutdownButton);
+    return card;
+  }
+
+  private void triggerShutdown(Button button) {
+    button.setText(getTranslation("terminal.settings.shutdown.inProgress"));
+    button.setEnabled(false);
+    applicationShutdownService.requestShutdown();
   }
 
   @Override

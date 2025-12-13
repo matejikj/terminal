@@ -1,6 +1,7 @@
 package com.matejik.skoda.routes;
 
 import com.matejik.terminal.application.store.AppStore;
+import com.matejik.terminal.application.system.ApplicationShutdownService;
 import com.matejik.terminal.domain.registration.command.RegistrationCommandService;
 import com.matejik.terminal.i18n.TerminalLocaleService;
 import com.matejik.terminal.infrastructure.audio.AudioDeviceAdapter;
@@ -17,7 +18,13 @@ public class SkodaSettingsRoute extends SettingsView {
       TerminalLocaleService localeService,
       RegistrationCommandService registrationCommandService,
       AppStore appStore,
-      AudioDeviceAdapter audioDeviceAdapter) {
-    super(localeService, registrationCommandService, appStore, audioDeviceAdapter);
+      AudioDeviceAdapter audioDeviceAdapter,
+      ApplicationShutdownService applicationShutdownService) {
+    super(
+        localeService,
+        registrationCommandService,
+        appStore,
+        audioDeviceAdapter,
+        applicationShutdownService);
   }
 }

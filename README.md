@@ -39,6 +39,27 @@ To build just one customer artifact, keep using the module shortcuts but add you
 ./mvnw skoda -Pproduction package
 ```
 
+## Desktop Installers
+
+`jpackage` is now wired straight into Maven so you can build installers per module without any helper scripts. Run the desired brand with the production profile and set `desktop.installer` to the target format:
+
+- **Ubuntu / Debian (.deb)** – `./mvnw skoda -Pproduction -Ddesktop.installer=deb` (or swap `skoda` for `product`). Maven assembles the fat jar, feeds it to `jpackage`, and emits the `.deb` into `skoda/target/desktop`.
+- **Windows (.exe)** – `./mvnw product -Pproduction -Ddesktop.installer=exe` when `jpackage` is available on `PATH` (OpenJDK 17+). The `.exe` installer lands in `product/target/desktop` with Start Menu/Desktop shortcuts pre-configured.
+
+Each installer bundles the Vaadin theme assets, `audio-client-bridge.ts`, and logging setup so runtime logs land in `${USERPROFILE}/.terminal/logs/terminal.log` (Windows) or `${HOME}/.terminal/logs/terminal.log` (Linux). Launching the icon boots the embedded Vaadin server, auto-opens the default browser once it’s ready, and the **Settings → Application Control → “Shut down Terminal”** button cleanly stops it again.
+
+## Installation & Launch
+
+1. Build the installer for your target platform (see the previous section). The resulting package shows up under `<module>/target/desktop`.
+2. **Ubuntu/Debian** – install the `.deb` either via GUI (double-click in your file manager) or CLI:  
+   ```bash
+   sudo dpkg -i product/target/desktop/terminal_*.deb
+   sudo apt remove terminal
+   ```  
+   The installer creates menu + desktop entries named “Terminal”. Launch it from the desktop icon or via the application menu; it starts the embedded Vaadin server and opens your default browser automatically once the backend is ready.
+3. **Windows** – run the generated `.exe`, follow the standard setup wizard, and leave the shortcut options enabled. After installation you can start “Terminal” from the Start Menu or desktop.
+4. When the browser tab is no longer needed, return to the app and use **Settings → Application Control → “Shut down Terminal”** to stop the server cleanly. Logs always go to the per-user directory mentioned earlier so you can inspect failures after the app has been closed.
+
 ## Docker Image
 
 Build a Docker image from the desired brand artifact, for example:
