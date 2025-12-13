@@ -1,10 +1,9 @@
 package com.matejik.terminal.config;
 
+import com.matejik.terminal.application.data.CollectionService;
 import java.net.URI;
 import java.time.Duration;
 import java.util.Locale;
-
-import com.matejik.terminal.application.data.CollectionService;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "terminal")
@@ -30,10 +29,7 @@ public class TerminalProperties {
     /** Base URL of the domain backend from which the Vaadin application reads data. */
     private URI baseUrl = URI.create("http://localhost:8081");
 
-    /**
-     * TTL for cached collection data inside the {@link
-     * CollectionService}.
-     */
+    /** TTL for cached collection data inside the {@link CollectionService}. */
     private Duration cacheTtl = Duration.ofSeconds(30);
 
     public URI getBaseUrl() {

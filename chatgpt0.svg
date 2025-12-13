@@ -1,0 +1,695 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1024" viewBox="0 0 1280 1024">
+  <defs>
+    <!-- Gradients (retuned to dark neon/glass style) -->
+    <linearGradient id="app-panel-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#121826"></stop>
+      <stop offset="1" stop-color="#0b0f17"></stop>
+    </linearGradient>
+
+    <linearGradient id="status-bar-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1c2540"></stop>
+      <stop offset="1" stop-color="#141a2e"></stop>
+    </linearGradient>
+
+    <linearGradient id="status-tag-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#202a48"></stop>
+      <stop offset="1" stop-color="#171f38"></stop>
+    </linearGradient>
+
+    <linearGradient id="sidebar-bg-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#182034"></stop>
+      <stop offset="1" stop-color="#11182a"></stop>
+    </linearGradient>
+
+    <linearGradient id="sidebar-button-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#27324a"></stop>
+      <stop offset="1" stop-color="#1a2338"></stop>
+    </linearGradient>
+
+    <linearGradient id="sidebar-button-active-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#37c9ff"></stop>
+      <stop offset="1" stop-color="#a855f7"></stop>
+    </linearGradient>
+
+    <linearGradient id="tab-primary-inactive-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#202a48"></stop>
+      <stop offset="1" stop-color="#17213a"></stop>
+    </linearGradient>
+
+    <linearGradient id="tab-primary-active-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#37c9ff"></stop>
+      <stop offset="1" stop-color="#a855f7"></stop>
+    </linearGradient>
+
+    <linearGradient id="tab-secondary-inactive-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e2845"></stop>
+      <stop offset="1" stop-color="#141d35"></stop>
+    </linearGradient>
+
+    <linearGradient id="tab-secondary-active-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#37c9ff"></stop>
+      <stop offset="1" stop-color="#8a5cf9"></stop>
+    </linearGradient>
+
+    <linearGradient id="tile-olive-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#212b49"></stop>
+      <stop offset="1" stop-color="#151d34"></stop>
+    </linearGradient>
+
+    <linearGradient id="tile-purple-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#252e54"></stop>
+      <stop offset="1" stop-color="#17203a"></stop>
+    </linearGradient>
+
+    <linearGradient id="tile-blue-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#203258"></stop>
+      <stop offset="1" stop-color="#151f38"></stop>
+    </linearGradient>
+
+    <linearGradient id="tile-teal-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1c3a52"></stop>
+      <stop offset="1" stop-color="#14273c"></stop>
+    </linearGradient>
+
+    <linearGradient id="tile-red-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3bd0ff"></stop>
+      <stop offset="1" stop-color="#c560ff"></stop>
+    </linearGradient>
+
+    <linearGradient id="tile-disabled-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a3149"></stop>
+      <stop offset="1" stop-color="#1a2137"></stop>
+    </linearGradient>
+
+    <linearGradient id="right-panel-bg-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a2240"></stop>
+      <stop offset="1" stop-color="#121a33"></stop>
+    </linearGradient>
+
+    <linearGradient id="call-row-info-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#304a8a"></stop>
+      <stop offset="1" stop-color="#1a2b55"></stop>
+    </linearGradient>
+
+    <linearGradient id="call-row-success-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#36d49a"></stop>
+      <stop offset="1" stop-color="#128a62"></stop>
+    </linearGradient>
+
+    <linearGradient id="icon-blue-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#37c9ff"></stop>
+      <stop offset="1" stop-color="#a855f7"></stop>
+    </linearGradient>
+
+    <linearGradient id="button-neutral-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#253152"></stop>
+      <stop offset="1" stop-color="#1a2440"></stop>
+    </linearGradient>
+
+    <linearGradient id="button-danger-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff6b9a"></stop>
+      <stop offset="1" stop-color="#b04bff"></stop>
+    </linearGradient>
+
+    <linearGradient id="call-detail-bg-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1b2342"></stop>
+      <stop offset="1" stop-color="#151d36"></stop>
+    </linearGradient>
+
+    <linearGradient id="status-led-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7affd1"></stop>
+      <stop offset="1" stop-color="#18da8c"></stop>
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="tile-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000000" flood-opacity="0.55"></feDropShadow>
+    </filter>
+
+    <filter id="panel-shadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#000000" flood-opacity="0.55"></feDropShadow>
+    </filter>
+
+    <filter id="led-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.2" result="blur"></feGaussianBlur>
+      <feMerge>
+        <feMergeNode in="blur"></feMergeNode>
+        <feMergeNode in="SourceGraphic"></feMergeNode>
+      </feMerge>
+    </filter>
+
+    <!-- Icon: phone -->
+    <g id="icon-phone">
+      <rect x="0" y="0" width="16" height="16" rx="6" fill="url(#icon-blue-gradient)"></rect>
+      <path d="M4 4c0.5 2 2.1 3.6 4.1 4.3L9 7l3 3-1.3 1.3C8.5 10.7 6.2 8.4 4.7 6.3L6 5 4 4z" fill="#ffffff" opacity="0.95"></path>
+      <path d="M1 6c0.3-0.7 1-1.2 1.7-1.4L4 5 3 6.2 1 6z" fill="#ffffff" opacity="0.35"></path>
+    </g>
+  </defs>
+
+  <style>
+    .font-ui {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    /* Theming overrides for dark neon style */
+    #primary-tabs text { fill:#e8efff !important; font-weight:600 !important; }
+    #secondary-tabs text { fill:#a7b8dd !important; font-weight:500 !important; }
+    #tile-grid text { fill:#eaf2ff !important; font-weight:600 !important; }
+    #call-list text { fill:#eaf2ff !important; }
+    #call-detail text { fill:#eaf2ff !important; }
+    /* Hide legacy 1px bevel lines &amp; borders to get smooth cards */
+    #tile-grid rect[height="1"], #tile-grid rect[width="1"],
+    #primary-tabs rect[height="1"], #primary-tabs rect[width="1"],
+    #secondary-tabs rect[height="1"], #secondary-tabs rect[width="1"] { opacity:0; }
+  </style>
+
+  <g id="app-root">
+    <!-- App background -->
+    <g id="app-background">
+      <rect x="0" y="0" width="1280" height="1024" fill="#0b0f17"></rect>
+      <rect x="16" y="16" width="1248" height="992" rx="24" ry="24" fill="url(#app-panel-gradient)" stroke="#0f1730" stroke-width="1" filter="url(#panel-shadow)"></rect>
+    </g>
+
+    <!-- Header: status bar, tags, tabs -->
+    <g id="header">
+      <!-- Top status bar -->
+      <g id="status-bar">
+        <rect x="16" y="16" width="1248" height="32" rx="12" fill="url(#status-bar-gradient)"></rect>
+        <rect x="16" y="48" width="1248" height="1" fill="#223055"></rect>
+        <g id="status-tags">
+          <!-- PBX -->
+          <g id="status-tag-pbx">
+            <rect x="32" y="20" width="90" height="24" rx="12" fill="url(#status-tag-gradient)" stroke="#263255" stroke-width="1"></rect>
+            <rect x="38" y="26" width="8" height="8" rx="3" fill="url(#status-led-gradient)" filter="url(#led-glow)"></rect>
+            <text class="font-ui" x="52" y="38" font-size="11" font-weight="600" fill="#eaf2ff">PBX</text>
+          </g>
+          <!-- Recording -->
+          <g id="status-tag-recording">
+            <rect x="130" y="20" width="110" height="24" rx="12" fill="url(#status-tag-gradient)" stroke="#263255" stroke-width="1"></rect>
+            <rect x="136" y="26" width="8" height="8" rx="3" fill="url(#status-led-gradient)" filter="url(#led-glow)"></rect>
+            <text class="font-ui" x="150" y="38" font-size="11" font-weight="600" fill="#eaf2ff">Nahrávání</text>
+          </g>
+          <!-- Logging -->
+          <g id="status-tag-logging">
+            <rect x="252" y="20" width="110" height="24" rx="12" fill="url(#status-tag-gradient)" stroke="#263255" stroke-width="1"></rect>
+            <rect x="258" y="26" width="8" height="8" rx="3" fill="url(#status-led-gradient)" filter="url(#led-glow)"></rect>
+            <text class="font-ui" x="272" y="38" font-size="11" font-weight="600" fill="#eaf2ff">Logování</text>
+          </g>
+        </g>
+        <text class="font-ui" x="1254" y="36" font-size="12" fill="#cdd9ff" text-anchor="end">12.03.2025 14:32:18</text>
+      </g>
+    </g>
+
+    <!-- Main layout (sidebar, grid, right panel) -->
+    <g id="layout">
+      <!-- Sidebar -->
+      <g id="sidebar">
+        <rect x="16" y="48" width="72" height="960" rx="16" fill="url(#sidebar-bg-gradient)" stroke="#0f1730" stroke-width="1"></rect>
+        <!-- Sidebar buttons -->
+        <!-- Button positions: baseX=28, startY=172, size=48, gap=8 -->
+        <g id="sidebar-button-1" transform="translate(28,72)">
+          <rect width="48" height="48" rx="14" fill="url(#sidebar-button-gradient)" stroke="#232f50" stroke-width="1" filter="url(#tile-shadow)"></rect>
+          <rect x="8" y="10" width="32" height="24" rx="8" fill="url(#icon-blue-gradient)"></rect>
+          <rect x="12" y="14" width="24" height="3" rx="2" fill="#ffffff" opacity="0.8"></rect>
+          <rect x="12" y="19" width="20" height="3" rx="2" fill="#ffffff" opacity="0.6"></rect>
+        </g>
+        <g id="sidebar-button-2-active" transform="translate(28,128)">
+          <rect width="48" height="48" rx="14" fill="url(#sidebar-button-active-gradient)" stroke="#3a2f6b" stroke-width="1" filter="url(#tile-shadow)"></rect>
+          <rect x="10" y="10" width="28" height="28" rx="10" fill="url(#icon-blue-gradient)"></rect>
+          <circle cx="24" cy="18" r="6" fill="#ffffff" opacity="0.95"></circle>
+          <rect x="18" y="24" width="12" height="6" rx="3" fill="#ffffff" opacity="0.95"></rect>
+        </g>
+        <g id="sidebar-button-3" transform="translate(28,184)">
+          <rect width="48" height="48" rx="14" fill="url(#sidebar-button-gradient)" stroke="#232f50" stroke-width="1" filter="url(#tile-shadow)"></rect>
+          <rect x="13" y="12" width="22" height="4" rx="2" fill="#9dc7ff"></rect>
+          <rect x="13" y="20" width="22" height="4" rx="2" fill="#9dc7ff" opacity="0.8"></rect>
+          <rect x="13" y="28" width="22" height="4" rx="2" fill="#9dc7ff" opacity="0.6"></rect>
+        </g>
+        <g id="sidebar-button-4" transform="translate(28,240)">
+          <rect width="48" height="48" rx="14" fill="url(#sidebar-button-gradient)" stroke="#232f50" stroke-width="1" filter="url(#tile-shadow)"></rect>
+          <circle cx="24" cy="18" r="10" fill="url(#icon-blue-gradient)"></circle>
+          <rect x="20" y="14" width="8" height="2" rx="1" fill="#ffffff"></rect>
+          <rect x="20" y="18" width="8" height="2" rx="1" fill="#ffffff"></rect>
+          <rect x="20" y="22" width="8" height="2" rx="1" fill="#ffffff"></rect>
+        </g>
+        <g id="sidebar-button-5" transform="translate(28,296)">
+          <rect width="48" height="48" rx="14" fill="url(#sidebar-button-gradient)" stroke="#232f50" stroke-width="1" filter="url(#tile-shadow)"></rect>
+          <rect x="16" y="14" width="16" height="20" rx="4" fill="url(#icon-blue-gradient)"></rect>
+          <circle cx="24" cy="36" r="2" fill="#ffffff" opacity="0.9"></circle>
+        </g>
+      </g>
+
+      <!-- Main content center -->
+      <g id="main-content" transform="translate(88 0) scale(0.9235807860262009 1) translate(-88 0)">
+        <!-- Primary tabs -->
+        <g id="primary-tabs">
+          <!-- Tab 1 inactive -->
+          <g id="tab-hdp-emergo-1">
+            <rect x="88" y="71" width="180" height="76" rx="16" fill="url(#tab-primary-inactive-gradient)" stroke="#243155" stroke-width="1"></rect>
+            <text class="font-ui" x="178" y="115" font-size="13" font-weight="600" text-anchor="middle">HDP_Emergo_tab1</text>
+          </g>
+          <!-- Tab 2 active -->
+          <g id="tab-hdp-obchodni-1">
+            <rect x="268" y="71" width="180" height="76" rx="16" fill="url(#tab-primary-active-gradient)" stroke="#3d2f6b" stroke-width="1"></rect>
+            <text class="font-ui" x="358" y="115" font-size="13" font-weight="700" fill="#0d1022" text-anchor="middle">HDP_Obchodní_tab1</text>
+          </g>
+          <!-- Tab 3 inactive -->
+          <g id="tab-hdp-emergo-2">
+            <rect x="448" y="71" width="180" height="76" rx="16" fill="url(#tab-primary-inactive-gradient)" stroke="#243155" stroke-width="1"></rect>
+            <text class="font-ui" x="538" y="115" font-size="13" font-weight="600" text-anchor="middle">HDP_Emergo_tab2</text>
+          </g>
+          <!-- Tab 4 inactive -->
+          <g id="tab-hdp-test">
+            <rect x="628" y="71" width="160" height="76" rx="16" fill="url(#tab-primary-inactive-gradient)" stroke="#243155" stroke-width="1"></rect>
+            <text class="font-ui" x="708" y="115" font-size="13" font-weight="600" text-anchor="middle">HDP_Test</text>
+          </g>
+        </g>
+
+        <!-- Secondary tabs -->
+        <g id="secondary-tabs">
+          <!-- Active Elektrárny -->
+          <g id="tab-elektrarny">
+            <rect x="88" y="154" width="136" height="76" rx="14" fill="url(#tab-secondary-active-gradient)" stroke="#343d71" stroke-width="1"></rect>
+            <text class="font-ui" x="156" y="198" font-size="13" font-weight="600" text-anchor="middle">Elektrárny</text>
+          </g>
+          <!-- Rozvody -->
+          <g id="tab-rozvody">
+            <rect x="224" y="154" width="136" height="76" rx="14" fill="url(#tab-secondary-inactive-gradient)" stroke="#243155" stroke-width="1"></rect>
+            <text class="font-ui" x="292" y="198" font-size="13" font-weight="500" text-anchor="middle">Rozvody</text>
+          </g>
+          <!-- Distribuce -->
+          <g id="tab-distribuce">
+            <rect x="360" y="154" width="136" height="76" rx="14" fill="url(#tab-secondary-inactive-gradient)" stroke="#243155" stroke-width="1"></rect>
+            <text class="font-ui" x="428" y="198" font-size="13" font-weight="500" text-anchor="middle">Distribuce</text>
+          </g>
+          <!-- Testovací -->
+          <g id="tab-testovaci">
+            <rect x="496" y="154" width="136" height="76" rx="14" fill="url(#tab-secondary-inactive-gradient)" stroke="#243155" stroke-width="1"></rect>
+            <text class="font-ui" x="564" y="198" font-size="13" font-weight="500" text-anchor="middle">Testovací</text>
+          </g>
+          <!-- Bottom divider under tabs -->
+          <rect x="88" y="230" width="916" height="1" fill="#2a355a"></rect>
+        </g>
+
+        <!-- Background panel for grid -->
+        <g id="main-grid-panel">
+          <rect x="88" y="246" width="916" height="756" rx="18" fill="#121a2f" stroke="#0f1730" stroke-width="1"></rect>
+          <rect x="88" y="246" width="916" height="4" fill="#5b6aa3" opacity="0.15"></rect>
+        </g>
+
+        <!-- Tile grid -->
+        <g id="tile-grid" transform="translate(0,104)">
+          <!-- Tiles: 7 columns x 8 rows -->
+          <!-- Tile size: 118x80, gap 8, start (109,172), step 126x88 -->
+          <!-- Row 0 -->
+          <g id="tile-r0-c0" filter="url(#tile-shadow)">
+            <rect x="109" y="172" width="118" height="80" rx="14" fill="url(#tile-olive-gradient)"></rect>
+            <text class="font-ui" x="119" y="194" font-size="13" font-weight="600">ETI1</text>
+            <use href="#icon-phone" x="203" y="180"></use>
+          </g>
+
+          <g id="tile-r0-c1" filter="url(#tile-shadow)">
+            <rect x="235" y="172" width="118" height="80" rx="14" fill="url(#tile-purple-gradient)"></rect>
+            <text class="font-ui" x="245" y="194" font-size="13" font-weight="600">ETI2</text>
+            <use href="#icon-phone" x="329" y="180"></use>
+          </g>
+
+          <g id="tile-r0-c2" filter="url(#tile-shadow)">
+            <rect x="361" y="172" width="118" height="80" rx="14" fill="url(#tile-blue-gradient)"></rect>
+            <text class="font-ui" x="371" y="194" font-size="13" font-weight="600">Kralupy</text>
+            <use href="#icon-phone" x="455" y="180"></use>
+          </g>
+
+          <g id="tile-r0-c3" filter="url(#tile-shadow)">
+            <rect x="487" y="172" width="118" height="80" rx="14" fill="url(#tile-teal-gradient)"></rect>
+            <text class="font-ui" x="497" y="194" font-size="13" font-weight="600">Mělník</text>
+            <use href="#icon-phone" x="581" y="180"></use>
+          </g>
+
+          <g id="tile-r0-c4-active" filter="url(#tile-shadow)">
+            <rect x="613" y="172" width="118" height="80" rx="14" fill="url(#tile-red-gradient)"></rect>
+            <text class="font-ui" x="623" y="194" font-size="13" font-weight="700">HDP_ETI</text>
+            <use href="#icon-phone" x="707" y="180"></use>
+          </g>
+
+          <g id="tile-r0-c5" filter="url(#tile-shadow)">
+            <rect x="739" y="172" width="118" height="80" rx="14" fill="url(#tile-olive-gradient)"></rect>
+            <text class="font-ui" x="749" y="194" font-size="13" font-weight="600">Tušimice</text>
+            <use href="#icon-phone" x="833" y="180"></use>
+          </g>
+
+          <g id="tile-r0-c6-disabled" filter="url(#tile-shadow)">
+            <rect x="865" y="172" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+
+          <!-- Row 1 -->
+          <g id="tile-r1-c0" filter="url(#tile-shadow)">
+            <rect x="109" y="260" width="118" height="80" rx="14" fill="url(#tile-olive-gradient)"></rect>
+            <text class="font-ui" x="119" y="282" font-size="13" font-weight="600">Prunéřov</text>
+            <use href="#icon-phone" x="203" y="268"></use>
+          </g>
+
+          <g id="tile-r1-c1" filter="url(#tile-shadow)">
+            <rect x="235" y="260" width="118" height="80" rx="14" fill="url(#tile-purple-gradient)"></rect>
+            <text class="font-ui" x="245" y="282" font-size="13" font-weight="600">Počerady</text>
+            <use href="#icon-phone" x="329" y="268"></use>
+          </g>
+
+          <g id="tile-r1-c2" filter="url(#tile-shadow)">
+            <rect x="361" y="260" width="118" height="80" rx="14" fill="url(#tile-blue-gradient)"></rect>
+            <text class="font-ui" x="371" y="282" font-size="13" font-weight="600">Chvaletice</text>
+            <use href="#icon-phone" x="455" y="268"></use>
+          </g>
+
+          <g id="tile-r1-c3" filter="url(#tile-shadow)">
+            <rect x="487" y="260" width="118" height="80" rx="14" fill="url(#tile-teal-gradient)"></rect>
+            <text class="font-ui" x="497" y="282" font-size="13" font-weight="600">Dětmarovice</text>
+            <use href="#icon-phone" x="581" y="268"></use>
+          </g>
+
+          <g id="tile-r1-c4" filter="url(#tile-shadow)">
+            <rect x="613" y="260" width="118" height="80" rx="14" fill="url(#tile-blue-gradient)"></rect>
+            <text class="font-ui" x="623" y="282" font-size="13" font-weight="600">Ledvice</text>
+            <use href="#icon-phone" x="707" y="268"></use>
+          </g>
+
+          <g id="tile-r1-c5" filter="url(#tile-shadow)">
+            <rect x="739" y="260" width="118" height="80" rx="14" fill="url(#tile-olive-gradient)"></rect>
+            <text class="font-ui" x="749" y="282" font-size="13" font-weight="600">Město A</text>
+            <use href="#icon-phone" x="833" y="268"></use>
+          </g>
+
+          <g id="tile-r1-c6-disabled" filter="url(#tile-shadow)">
+            <rect x="865" y="260" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+
+          <!-- Row 2 -->
+          <g id="tile-r2-c0" filter="url(#tile-shadow)">
+            <rect x="109" y="348" width="118" height="80" rx="14" fill="url(#tile-teal-gradient)"></rect>
+            <text class="font-ui" x="119" y="370" font-size="13" font-weight="600">Stanice 1</text>
+            <use href="#icon-phone" x="203" y="356"></use>
+          </g>
+
+          <g id="tile-r2-c1" filter="url(#tile-shadow)">
+            <rect x="235" y="348" width="118" height="80" rx="14" fill="url(#tile-blue-gradient)"></rect>
+            <text class="font-ui" x="245" y="370" font-size="13" font-weight="600">Stanice 2</text>
+            <use href="#icon-phone" x="329" y="356"></use>
+          </g>
+
+          <g id="tile-r2-c2" filter="url(#tile-shadow)">
+            <rect x="361" y="348" width="118" height="80" rx="14" fill="url(#tile-purple-gradient)"></rect>
+            <text class="font-ui" x="371" y="370" font-size="13" font-weight="600">Stanice 3</text>
+            <use href="#icon-phone" x="455" y="356"></use>
+          </g>
+
+          <g id="tile-r2-c3" filter="url(#tile-shadow)">
+            <rect x="487" y="348" width="118" height="80" rx="14" fill="url(#tile-olive-gradient)"></rect>
+            <text class="font-ui" x="497" y="370" font-size="13" font-weight="600">Stanice 4</text>
+            <use href="#icon-phone" x="581" y="356"></use>
+          </g>
+
+          <g id="tile-r2-c4" filter="url(#tile-shadow)">
+            <rect x="613" y="348" width="118" height="80" rx="14" fill="url(#tile-blue-gradient)"></rect>
+            <text class="font-ui" x="623" y="370" font-size="13" font-weight="600">Stanice 5</text>
+            <use href="#icon-phone" x="707" y="356"></use>
+          </g>
+
+          <g id="tile-r2-c5" filter="url(#tile-shadow)">
+            <rect x="739" y="348" width="118" height="80" rx="14" fill="url(#tile-teal-gradient)"></rect>
+            <text class="font-ui" x="749" y="370" font-size="13" font-weight="600">Stanice 6</text>
+            <use href="#icon-phone" x="833" y="356"></use>
+          </g>
+
+          <g id="tile-r2-c6-disabled" filter="url(#tile-shadow)">
+            <rect x="865" y="348" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+
+          <!-- Row 3 -->
+          <g id="tile-r3-c0" filter="url(#tile-shadow)">
+            <rect x="109" y="436" width="118" height="80" rx="14" fill="url(#tile-olive-gradient)"></rect>
+            <text class="font-ui" x="119" y="458" font-size="13" font-weight="600">Linka 101</text>
+            <use href="#icon-phone" x="203" y="444"></use>
+          </g>
+          <g id="tile-r3-c1-disabled" filter="url(#tile-shadow)">
+            <rect x="235" y="436" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r3-c2" filter="url(#tile-shadow)">
+            <rect x="361" y="436" width="118" height="80" rx="14" fill="url(#tile-blue-gradient)"></rect>
+            <text class="font-ui" x="371" y="458" font-size="13" font-weight="600">Linka 102</text>
+            <use href="#icon-phone" x="455" y="444"></use>
+          </g>
+          <g id="tile-r3-c3-disabled" filter="url(#tile-shadow)">
+            <rect x="487" y="436" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r3-c4" filter="url(#tile-shadow)">
+            <rect x="613" y="436" width="118" height="80" rx="14" fill="url(#tile-teal-gradient)"></rect>
+            <text class="font-ui" x="623" y="458" font-size="13" font-weight="600">Linka 103</text>
+            <use href="#icon-phone" x="707" y="444"></use>
+          </g>
+          <g id="tile-r3-c5-disabled" filter="url(#tile-shadow)">
+            <rect x="739" y="436" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r3-c6-disabled" filter="url(#tile-shadow)">
+            <rect x="865" y="436" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+
+          <!-- Row 4 -->
+          <g id="tile-r4-c0-disabled" filter="url(#tile-shadow)">
+            <rect x="109" y="524" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r4-c1" filter="url(#tile-shadow)">
+            <rect x="235" y="524" width="118" height="80" rx="14" fill="url(#tile-blue-gradient)"></rect>
+            <text class="font-ui" x="245" y="546" font-size="13" font-weight="600">Dispečink 1</text>
+            <use href="#icon-phone" x="329" y="532"></use>
+          </g>
+          <g id="tile-r4-c2-disabled" filter="url(#tile-shadow)">
+            <rect x="361" y="524" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r4-c3" filter="url(#tile-shadow)">
+            <rect x="487" y="524" width="118" height="80" rx="14" fill="url(#tile-teal-gradient)"></rect>
+            <text class="font-ui" x="497" y="546" font-size="13" font-weight="600">Dispečink 2</text>
+            <use href="#icon-phone" x="581" y="532"></use>
+          </g>
+          <g id="tile-r4-c4-disabled" filter="url(#tile-shadow)">
+            <rect x="613" y="524" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r4-c5-disabled" filter="url(#tile-shadow)">
+            <rect x="739" y="524" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r4-c6-disabled" filter="url(#tile-shadow)">
+            <rect x="865" y="524" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+
+          <!-- Row 5 -->
+          <g id="tile-r5-c0-disabled" filter="url(#tile-shadow)">
+            <rect x="109" y="612" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r5-c1-disabled" filter="url(#tile-shadow)">
+            <rect x="235" y="612" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r5-c2" filter="url(#tile-shadow)">
+            <rect x="361" y="612" width="118" height="80" rx="14" fill="url(#tile-olive-gradient)"></rect>
+            <text class="font-ui" x="371" y="634" font-size="13" font-weight="600">Rezerva 1</text>
+            <use href="#icon-phone" x="455" y="620"></use>
+          </g>
+          <g id="tile-r5-c3-disabled" filter="url(#tile-shadow)">
+            <rect x="487" y="612" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r5-c4" filter="url(#tile-shadow)">
+            <rect x="613" y="612" width="118" height="80" rx="14" fill="url(#tile-blue-gradient)"></rect>
+            <text class="font-ui" x="623" y="634" font-size="13" font-weight="600">Rezerva 2</text>
+            <use href="#icon-phone" x="707" y="620"></use>
+          </g>
+          <g id="tile-r5-c5-disabled" filter="url(#tile-shadow)">
+            <rect x="739" y="612" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r5-c6-disabled" filter="url(#tile-shadow)">
+            <rect x="865" y="612" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+
+          <!-- Row 6 -->
+          <g id="tile-r6-c0-disabled" filter="url(#tile-shadow)">
+            <rect x="109" y="700" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r6-c1" filter="url(#tile-shadow)">
+            <rect x="235" y="700" width="118" height="80" rx="14" fill="url(#tile-teal-gradient)"></rect>
+            <text class="font-ui" x="245" y="722" font-size="13" font-weight="600">Rezerva 3</text>
+            <use href="#icon-phone" x="329" y="708"></use>
+          </g>
+          <g id="tile-r6-c2-disabled" filter="url(#tile-shadow)">
+            <rect x="361" y="700" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r6-c3-disabled" filter="url(#tile-shadow)">
+            <rect x="487" y="700" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r6-c4-disabled" filter="url(#tile-shadow)">
+            <rect x="613" y="700" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r6-c5-disabled" filter="url(#tile-shadow)">
+            <rect x="739" y="700" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r6-c6-disabled" filter="url(#tile-shadow)">
+            <rect x="865" y="700" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+
+          <!-- Row 7 -->
+          <g id="tile-r7-c0-disabled" filter="url(#tile-shadow)">
+            <rect x="109" y="788" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r7-c1-disabled" filter="url(#tile-shadow)">
+            <rect x="235" y="788" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r7-c2-disabled" filter="url(#tile-shadow)">
+            <rect x="361" y="788" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r7-c3-disabled" filter="url(#tile-shadow)">
+            <rect x="487" y="788" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r7-c4-disabled" filter="url(#tile-shadow)">
+            <rect x="613" y="788" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r7-c5-disabled" filter="url(#tile-shadow)">
+            <rect x="739" y="788" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+          <g id="tile-r7-c6-disabled" filter="url(#tile-shadow)">
+            <rect x="865" y="788" width="118" height="80" rx="14" fill="url(#tile-disabled-gradient)"></rect>
+          </g>
+        </g>
+      </g>
+
+      <!-- Right panel -->
+      <g id="right-panel">
+        <rect x="934" y="48" width="258" height="960" rx="18" fill="url(#right-panel-bg-gradient)" stroke="#0f1730" stroke-width="1" filter="url(#tile-shadow)"></rect>
+
+        <!-- Call list (top) -->
+        <g id="call-list">
+          <rect x="946" y="60" width="234" height="160" rx="14" fill="#0f1628" stroke="#263255" stroke-width="1"></rect>
+          <!-- Row 1: info/ringing -->
+          <g id="call-row-1">
+            <rect x="948" y="66" width="230" height="44" rx="12" fill="url(#call-row-info-gradient)"></rect>
+            <text class="font-ui" x="958" y="86" font-size="12" font-weight="700">9031113 - HDP_Emergency</text>
+            <text class="font-ui" x="958" y="100" font-size="11" font-weight="500" fill="#bcd3ff">Ringing...</text>
+            <rect x="1154" y="76" width="16" height="24" rx="6" fill="#1a2f5a"></rect>
+            <circle cx="1162" cy="88" r="5" fill="#ffffff" opacity="0.95"></circle>
+          </g>
+          <!-- Row 2: connected/success -->
+          <g id="call-row-2">
+            <rect x="948" y="116" width="230" height="44" rx="12" fill="url(#call-row-success-gradient)"></rect>
+            <text class="font-ui" x="958" y="136" font-size="12" font-weight="700">1042 - Linka 1</text>
+            <text class="font-ui" x="958" y="150" font-size="11" font-weight="500" fill="#d6ffe9">Connected 00:36</text>
+            <rect x="1154" y="126" width="16" height="24" rx="6" fill="#146b47"></rect>
+            <path d="M1157 133h10v2h-10zM1157 137h10v2h-10z" fill="#ffffff" opacity="0.95"></path>
+          </g>
+          <!-- Row 3: on hold -->
+          <g id="call-row-3">
+            <rect x="948" y="166" width="230" height="44" rx="12" fill="url(#call-row-info-gradient)" opacity="0.9"></rect>
+            <text class="font-ui" x="958" y="186" font-size="12" font-weight="700">9042221 - HDP_Support</text>
+            <text class="font-ui" x="958" y="200" font-size="11" font-weight="500" fill="#bcd3ff">On hold 02:14</text>
+            <rect x="1154" y="176" width="16" height="24" rx="6" fill="#1a2f5a"></rect>
+            <circle cx="1162" cy="184" r="4" fill="#ffffff" opacity="0.95"></circle>
+            <rect x="1161" y="189" width="2" height="6" fill="#ffffff" opacity="0.95"></rect>
+          </g>
+        </g>
+
+        <!-- Call detail (middle) -->
+        <g id="call-detail">
+          <rect x="946" y="232" width="234" height="180" rx="14" fill="url(#call-detail-bg-gradient)" stroke="#0f1730" stroke-width="1"></rect>
+          <!-- Icon -->
+          <circle cx="1063" cy="256" r="16" fill="url(#icon-blue-gradient)"></circle>
+          <path d="M1057 250c0.6 2.1 2.4 3.9 4.5 4.6l1.1-1.1 4.2 4.2-1.6 1.6c-3.2-1-5.7-3.5-7.2-6.5l1.3-1.3z" fill="#ffffff" opacity="0.95"></path>
+          <!-- Number -->
+          <text class="font-ui" x="1063" y="290" font-size="20" font-weight="800" text-anchor="middle">9031113</text>
+          <!-- Secondary info -->
+          <text class="font-ui" x="1063" y="312" font-size="12" font-weight="600" fill="#c7d6ff" text-anchor="middle">HDP_Emergency</text>
+          <text class="font-ui" x="1063" y="332" font-size="11" font-weight="500" fill="#b3c1ee" text-anchor="middle">Doba hovoru 0:36</text>
+        </g>
+
+        <!-- Call actions (bottom) -->
+        <g id="call-actions">
+          <rect x="946" y="428" width="234" height="468" rx="16" fill="#121a2f" stroke="#0f1730" stroke-width="1"></rect>
+          <!-- Buttons grid: 2 columns, 4 rows -->
+          <!-- Button 1 -->
+          <g id="call-action-accept" transform="translate(962,436)">
+            <rect width="40" height="40" rx="12" fill="url(#button-neutral-gradient)" stroke="#243155" stroke-width="1" filter="url(#tile-shadow)"></rect>
+            <use href="#icon-phone" x="12" y="12"></use>
+          </g>
+          <!-- Button 2 -->
+          <g id="call-action-hold" transform="translate(1124,436)">
+            <rect width="40" height="40" rx="12" fill="url(#button-neutral-gradient)" stroke="#243155" stroke-width="1" filter="url(#tile-shadow)"></rect>
+            <rect x="10" y="14" width="8" height="12" rx="3" fill="#9dc7ff"></rect>
+            <rect x="22" y="14" width="8" height="12" rx="3" fill="#9dc7ff"></rect>
+          </g>
+          <!-- Button 3 -->
+          <g id="call-action-transfer" transform="translate(962,488)">
+            <rect width="40" height="40" rx="12" fill="url(#button-neutral-gradient)" stroke="#243155" stroke-width="1" filter="url(#tile-shadow)"></rect>
+            <path d="M10 20h14v-4l8 8-8 8v-4h-14z" fill="#a9c7ff"></path>
+          </g>
+          <!-- Button 4 -->
+          <g id="call-action-mute" transform="translate(1124,488)">
+            <rect width="40" height="40" rx="12" fill="url(#button-neutral-gradient)" stroke="#243155" stroke-width="1" filter="url(#tile-shadow)"></rect>
+            <rect x="12" y="14" width="16" height="12" rx="3" fill="#9dc7ff"></rect>
+            <rect x="16" y="26" width="8" height="4" rx="2" fill="#9dc7ff"></rect>
+            <path d="M14 14l12 20" stroke="#ffffff" stroke-width="1.6" opacity="0.9" stroke-linecap="round"></path>
+          </g>
+          <!-- Button 5 -->
+          <g id="call-action-record" transform="translate(962,540)">
+            <rect width="40" height="40" rx="12" fill="url(#button-neutral-gradient)" stroke="#243155" stroke-width="1" filter="url(#tile-shadow)"></rect>
+            <circle cx="20" cy="20" r="8" fill="#ff6b9a"></circle>
+            <circle cx="20" cy="20" r="4" fill="#ffffff" opacity="0.95"></circle>
+          </g>
+          <!-- Button 6 -->
+          <g id="call-action-other" transform="translate(1124,540)">
+            <rect width="40" height="40" rx="12" fill="url(#button-neutral-gradient)" stroke="#243155" stroke-width="1" filter="url(#tile-shadow)"></rect>
+            <circle cx="14" cy="20" r="2" fill="#9dc7ff"></circle>
+            <circle cx="20" cy="20" r="2" fill="#9dc7ff"></circle>
+            <circle cx="26" cy="20" r="2" fill="#9dc7ff"></circle>
+          </g>
+          <!-- Button 7 (bottom-left neutral) -->
+          <g id="call-action-clear" transform="translate(962,592)">
+            <rect width="40" height="40" rx="12" fill="url(#button-neutral-gradient)" stroke="#243155" stroke-width="1" filter="url(#tile-shadow)"></rect>
+            <path d="M14 16h12v2h-12zM14 22h12v2h-12zM14 28h12v2h-12z" fill="#9dc7ff"></path>
+          </g>
+          <!-- Button 8 (bottom-right red X) -->
+          <g id="call-action-hangup" transform="translate(1124,592)">
+            <rect width="40" height="40" rx="12" fill="url(#button-danger-gradient)" stroke="#3a2f6b" stroke-width="1" filter="url(#tile-shadow)"></rect>
+            <path d="M14 16l12 12M26 16L14 28" stroke="#ffffff" stroke-width="2" stroke-linecap="round"></path>
+          </g>
+        </g>
+      </g>
+
+      <!-- Right sidebar -->
+      <g id="right-sidebar">
+        <rect x="1192" y="48" width="72" height="960" rx="16" fill="url(#sidebar-bg-gradient)" stroke="#0f1730" stroke-width="1"></rect>
+        <g id="right-sidebar-button-1" transform="translate(1204,72)">
+          <rect width="48" height="48" rx="14" fill="url(#sidebar-button-gradient)" stroke="#232f50" stroke-width="1" filter="url(#tile-shadow)"></rect>
+          <rect x="8" y="10" width="32" height="24" rx="8" fill="url(#icon-blue-gradient)"></rect>
+          <rect x="12" y="14" width="24" height="3" rx="2" fill="#ffffff" opacity="0.8"></rect>
+          <rect x="12" y="19" width="20" height="3" rx="2" fill="#ffffff" opacity="0.6"></rect>
+        </g>
+        <g id="right-sidebar-button-2" transform="translate(1204,128)">
+          <rect width="48" height="48" rx="14" fill="url(#sidebar-button-active-gradient)" stroke="#3a2f6b" stroke-width="1" filter="url(#tile-shadow)"></rect>
+          <rect x="10" y="10" width="28" height="28" rx="10" fill="url(#icon-blue-gradient)"></rect>
+          <circle cx="24" cy="18" r="6" fill="#ffffff" opacity="0.95"></circle>
+          <rect x="18" y="24" width="12" height="6" rx="3" fill="#ffffff" opacity="0.95"></rect>
+        </g>
+        <g id="right-sidebar-button-3" transform="translate(1204,184)">
+          <rect width="48" height="48" rx="14" fill="url(#sidebar-button-gradient)" stroke="#232f50" stroke-width="1" filter="url(#tile-shadow)"></rect>
+          <rect x="13" y="12" width="22" height="4" rx="2" fill="#9dc7ff"></rect>
+          <rect x="13" y="20" width="22" height="4" rx="2" fill="#9dc7ff" opacity="0.8"></rect>
+          <rect x="13" y="28" width="22" height="4" rx="2" fill="#9dc7ff" opacity="0.6"></rect>
+        </g>
+        <g id="right-sidebar-button-4" transform="translate(1204,240)">
+          <rect width="48" height="48" rx="14" fill="url(#sidebar-button-gradient)" stroke="#232f50" stroke-width="1" filter="url(#tile-shadow)"></rect>
+          <circle cx="24" cy="18" r="10" fill="url(#icon-blue-gradient)"></circle>
+          <rect x="20" y="14" width="8" height="2" rx="1" fill="#ffffff"></rect>
+          <rect x="20" y="18" width="8" height="2" rx="1" fill="#ffffff"></rect>
+          <rect x="20" y="22" width="8" height="2" rx="1" fill="#ffffff"></rect>
+        </g>
+        <g id="right-sidebar-button-5" transform="translate(1204,296)">
+          <rect width="48" height="48" rx="14" fill="url(#sidebar-button-gradient)" stroke="#232f50" stroke-width="1" filter="url(#tile-shadow)"></rect>
+          <rect x="16" y="14" width="16" height="20" rx="4" fill="url(#icon-blue-gradient)"></rect>
+          <circle cx="24" cy="36" r="2" fill="#ffffff" opacity="0.95"></circle>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

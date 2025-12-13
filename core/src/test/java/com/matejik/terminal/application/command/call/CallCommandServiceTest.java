@@ -2,9 +2,9 @@ package com.matejik.terminal.application.command.call;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.matejik.terminal.application.concurrent.SerialExecutor;
 import com.matejik.terminal.application.store.AppStore;
 import com.matejik.terminal.application.store.SerialActionDispatcher;
-import com.matejik.terminal.application.concurrent.SerialExecutor;
 import com.matejik.terminal.domain.call.CallDirection;
 import com.matejik.terminal.domain.call.CallSnapshot;
 import com.matejik.terminal.domain.call.CallStatus;

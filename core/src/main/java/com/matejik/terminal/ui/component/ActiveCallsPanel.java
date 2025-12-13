@@ -1,9 +1,9 @@
 package com.matejik.terminal.ui.component;
 
-import com.matejik.terminal.domain.call.command.CallCommandService;
-import com.matejik.terminal.domain.call.state.CallSlice;
-import com.matejik.terminal.domain.call.state.CallAction;
 import com.matejik.terminal.application.store.AppStore;
+import com.matejik.terminal.domain.call.command.CallCommandService;
+import com.matejik.terminal.domain.call.state.CallAction;
+import com.matejik.terminal.domain.call.state.CallSlice;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;

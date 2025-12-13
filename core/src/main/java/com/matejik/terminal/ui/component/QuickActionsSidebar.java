@@ -20,9 +20,11 @@ public final class QuickActionsSidebar extends Composite<Div> {
   private final AudioDeviceAdapter audioDeviceAdapter;
   private final AppStore appStore;
   private final Button muteButton;
+  private final Button themeButton;
   private final Input volumeSlider;
   private Registration audioStoreRegistration;
   private boolean muted;
+  private boolean darkTheme;
 
   public QuickActionsSidebar(AppStore appStore, AudioDeviceAdapter audioDeviceAdapter) {
     this.audioDeviceAdapter = audioDeviceAdapter;
@@ -42,11 +44,13 @@ public final class QuickActionsSidebar extends Composite<Div> {
     muteButton = createMuteAction();
     updateMuteButton();
 
+    themeButton = createThemeToggle();
+    updateThemeButton();
     volumeSlider = createVolumeSlider();
 
     container.add(
         muteButton,
-        createPrimaryAction(VaadinIcon.SUN_O, "terminal.actions.theme", () -> {}),
+        themeButton,
         createPrimaryAction(VaadinIcon.BELL, "terminal.actions.notifications", () -> {}),
         createVolumeControl());
 
@@ -59,9 +63,9 @@ public final class QuickActionsSidebar extends Composite<Div> {
     if (audioStoreRegistration == null) {
       audioStoreRegistration =
           appStore.subscribe(
-              state ->
-                  attachEvent.getUI().access(() -> applyAudioState(state.audioSlice())));
+              state -> attachEvent.getUI().access(() -> applyAudioState(state.audioSlice())));
     }
+    applyThemeState();
   }
 
   @Override
@@ -93,6 +97,14 @@ public final class QuickActionsSidebar extends Composite<Div> {
     button.addThemeVariants(ButtonVariant.LUMO_ICON, ButtonVariant.LUMO_TERTIARY);
     button.addClassNames("quick-action");
     button.addClickListener(event -> toggleMute());
+    return button;
+  }
+
+  private Button createThemeToggle() {
+    var button = new Button();
+    button.addThemeVariants(ButtonVariant.LUMO_ICON, ButtonVariant.LUMO_TERTIARY);
+    button.addClassNames("quick-action");
+    button.addClickListener(event -> toggleTheme());
     return button;
   }
 
@@ -142,5 +154,30 @@ public final class QuickActionsSidebar extends Composite<Div> {
     button.addThemeVariants(ButtonVariant.LUMO_ICON, ButtonVariant.LUMO_TERTIARY);
     button.addClassNames("quick-action");
     return button;
+  }
+
+  private void toggleTheme() {
+    darkTheme = !darkTheme;
+    applyThemeState();
+  }
+
+  private void applyThemeState() {
+    getUI()
+        .ifPresent(
+            ui ->
+                ui.getPage()
+                    .executeJs(
+                        darkTheme
+                            ? "document.documentElement.classList.add($0);"
+                            : "document.documentElement.classList.remove($0);",
+                        "terminal-theme-dark"));
+    updateThemeButton();
+  }
+
+  private void updateThemeButton() {
+    var icon = darkTheme ? VaadinIcon.SUN_O.create() : VaadinIcon.MOON_O.create();
+    themeButton.setIcon(icon);
+    var key = darkTheme ? "terminal.actions.theme.light" : "terminal.actions.theme.dark";
+    themeButton.setTooltipText(getTranslation(key));
   }
 }

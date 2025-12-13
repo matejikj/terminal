@@ -2,11 +2,11 @@ package com.matejik.terminal.application.store;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.matejik.terminal.application.concurrent.SerialExecutor;
 import com.matejik.terminal.application.state.AppState;
 import com.matejik.terminal.domain.call.state.CallAction;
 import com.matejik.terminal.domain.call.state.CallSlice.CallPhase;
 import com.matejik.terminal.domain.call.state.CallSlice.CallView;
-import com.matejik.terminal.application.concurrent.SerialExecutor;
 import com.vaadin.flow.shared.Registration;
 import java.time.Instant;
 import java.util.ArrayList;

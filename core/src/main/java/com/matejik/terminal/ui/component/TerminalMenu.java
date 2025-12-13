@@ -1,8 +1,8 @@
 package com.matejik.terminal.ui.component;
 
-import com.matejik.terminal.i18n.TerminalLocaleService;
 import com.matejik.terminal.application.navigation.TerminalNavItem;
 import com.matejik.terminal.application.navigation.TerminalNavigationRegistry;
+import com.matejik.terminal.i18n.TerminalLocaleService;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.DetachEvent;

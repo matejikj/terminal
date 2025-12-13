@@ -6,8 +6,8 @@ import com.matejik.terminal.domain.audio.AudioDeviceType;
 import com.matejik.terminal.domain.audio.state.AudioAction;
 import com.matejik.terminal.domain.audio.state.AudioSlice;
 import com.matejik.terminal.domain.registration.command.RegistrationCommandService;
-import com.matejik.terminal.infrastructure.audio.AudioDeviceAdapter;
 import com.matejik.terminal.i18n.TerminalLocaleService;
+import com.matejik.terminal.infrastructure.audio.AudioDeviceAdapter;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.DetachEvent;
@@ -102,8 +102,7 @@ public class SettingsView extends Composite<Div> {
 
     primaryOutputSelect.setLabel(getTranslation("terminal.settings.audio.primary"));
     primaryOutputSelect.setWidthFull();
-    primaryOutputSelect.setItemLabelGenerator(
-        device -> device == null ? "" : device.label());
+    primaryOutputSelect.setItemLabelGenerator(device -> device == null ? "" : device.label());
     primaryOutputSelect.addValueChangeListener(
         event -> {
           if (!event.isFromClient()) {
@@ -125,8 +124,7 @@ public class SettingsView extends Composite<Div> {
     secondaryOutputSelect.setEmptySelectionAllowed(true);
     secondaryOutputSelect.setEmptySelectionCaption(
         getTranslation("terminal.settings.audio.secondary.none"));
-    secondaryOutputSelect.setPlaceholder(
-        getTranslation("terminal.settings.audio.secondary.none"));
+    secondaryOutputSelect.setPlaceholder(getTranslation("terminal.settings.audio.secondary.none"));
     secondaryOutputSelect.addValueChangeListener(
         event -> {
           if (!event.isFromClient()) {
@@ -246,29 +244,32 @@ public class SettingsView extends Composite<Div> {
     if (audioStoreRegistration == null) {
       audioStoreRegistration =
           appStore.subscribe(
-              state ->
-                  attachEvent.getUI().access(() -> applyAudioState(state.audioSlice())));
+              state -> attachEvent.getUI().access(() -> applyAudioState(state.audioSlice())));
     }
     if (micTestListenerRegistration == null) {
       micTestListenerRegistration =
           audioDeviceAdapter.addMicTestStateListener(
               recording ->
-                  attachEvent.getUI().access(
-                      () -> {
-                        micTestRecording = recording;
-                        updateMicTestControls();
-                      }));
+                  attachEvent
+                      .getUI()
+                      .access(
+                          () -> {
+                            micTestRecording = recording;
+                            updateMicTestControls();
+                          }));
     }
     if (microphoneMuteListenerRegistration == null) {
       microphoneMuteListenerRegistration =
           audioDeviceAdapter.addMicrophoneMuteListener(
               muted ->
-                  attachEvent.getUI().access(
-                      () -> {
-                        microphoneMuted = muted;
-                        updateMicrophoneMuteButton();
-                        updateMicTestControls();
-                      }));
+                  attachEvent
+                      .getUI()
+                      .access(
+                          () -> {
+                            microphoneMuted = muted;
+                            updateMicrophoneMuteButton();
+                            updateMicTestControls();
+                          }));
     }
   }
 
