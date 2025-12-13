@@ -45,19 +45,6 @@
         </dependency>
     </dependencies>
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-            <resource>
-                <directory>src/main/frontend</directory>
-                <targetPath>META-INF/resources/frontend</targetPath>
-                <includes>
-                    <include>themes/**</include>
-                    <include>src/audio-client-bridge.ts</include>
-                </includes>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>com.vaadin</groupId>

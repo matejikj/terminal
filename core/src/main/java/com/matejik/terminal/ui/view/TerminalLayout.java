@@ -13,12 +13,12 @@ import com.matejik.terminal.ui.component.TerminalMenu;
 import com.matejik.terminal.ui.component.TerminalStatusBar;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.applayout.AppLayout;
-import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.page.Push;
 
-@CssImport("./themes/terminal/styles.css")
 @Push
+@Uses(AudioClientBridge.class)
 public class TerminalLayout extends AppLayout {
 
   private final Div viewContainer = new Div();
