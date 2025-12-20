@@ -12,7 +12,12 @@
 
     <artifactId>product</artifactId>
     <name>terminal-product</name>
-    <packaging>jar</packaging>
+    <packaging>${packaging.type}</packaging>
+
+    <properties>
+        <!-- Default packaging is JAR for desktop builds, can be overridden to WAR -->
+        <packaging.type>jar</packaging.type>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -41,6 +46,64 @@
     </build>
 
     <profiles>
+        <profile>
+            <id>war</id>
+            <activation>
+                <property>
+                    <name>packaging</name>
+                    <value>war</value>
+                </property>
+            </activation>
+            <properties>
+                <packaging.type>war</packaging.type>
+            </properties>
+            <dependencies>
+                <!-- Tomcat as provided for WAR deployment -->
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <!-- Exclude Logback for Wildfly deployment -->
+                <dependency>
+                    <groupId>com.matejik</groupId>
+                    <artifactId>core</artifactId>
+                    <version>${project.version}</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>ch.qos.logback</groupId>
+                            <artifactId>logback-classic</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>ch.qos.logback</groupId>
+                            <artifactId>logback-core</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+            </dependencies>
+            <build>
+                <finalName>terminal</finalName>
+                <plugins>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <configuration>
+                            <mainClass>com.matejik.product.ProductApplication</mainClass>
+                            <!-- Skip repackaging for WAR - use standard WAR structure -->
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>3.4.0</version>
+                        <configuration>
+                            <failOnMissingWebXml>false</failOnMissingWebXml>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <profile>
             <id>desktop-installer-deb</id>
             <activation>

@@ -15,9 +15,7 @@ import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.page.Push;
 
-@Push
 @Uses(AudioClientBridge.class)
 public class TerminalLayout extends AppLayout {
 
