@@ -12,7 +12,12 @@
 
     <artifactId>skoda</artifactId>
     <name>terminal-skoda</name>
-    <packaging>jar</packaging>
+    <packaging>${packaging.type}</packaging>
+
+    <properties>
+        <!-- Default packaging type is JAR (for standalone and DEB/EXE builds) -->
+        <packaging.type>jar</packaging.type>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -35,6 +40,52 @@
     </build>
 
     <profiles>
+        <!-- WAR Profile for Wildfly/Tomcat deployment -->
+        <profile>
+            <id>war</id>
+            <dependencies>
+                <!-- Exclude embedded Tomcat for WAR deployment (server provides it) -->
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                
+                <!-- Exclude Logback dependencies when deploying to Wildfly -->
+                <dependency>
+                    <groupId>com.matejik</groupId>
+                    <artifactId>core</artifactId>
+                    <version>${project.version}</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>ch.qos.logback</groupId>
+                            <artifactId>logback-classic</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>ch.qos.logback</groupId>
+                            <artifactId>logback-core</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>org.apache.logging.log4j</groupId>
+                            <artifactId>log4j-to-slf4j</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <!-- Skip Spring Boot repackaging for WAR to avoid classloader issues -->
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <profile>
             <id>desktop-installer-deb</id>
             <activation>
